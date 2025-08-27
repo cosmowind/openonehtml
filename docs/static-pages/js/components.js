@@ -281,12 +281,7 @@ class FileList {
   }
 
   viewFile(file) {
-    const correctPath = `/openonehtml/static-pages/html-files/${file.encryptedName}`;
-    console.log('=== 链接生成调试 ===');
-    console.log('文件名:', file.encryptedName);
-    console.log('生成的路径:', correctPath);
-    console.log('完整URL:', window.location.origin + correctPath);
-    window.open(correctPath, '_blank');
+    window.open(`/openonehtml/static-pages/html-files/${file.encryptedName}`, '_blank');
   }
 
   editFile(file) {
