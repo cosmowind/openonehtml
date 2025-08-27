@@ -1,0 +1,96 @@
+<!DOCTYPE html><html lang="zh-CN"><head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>示例HTML文件</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            line-height: 1.6;
+        }
+        .container {
+            border: 1px solid #ddd;
+            padding: 20px;
+            border-radius: 8px;
+            background-color: #f9f9f9;
+        }
+        .highlight {
+            background-color: #ffeb3b;
+            padding: 2px 4px;
+            border-radius: 3px;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>示例HTML文件</h1>
+        <p>这是一个<span class="highlight">示例HTML文件</span>，用于演示OpenOneHTML项目的功能。</p>
+        
+        <h2>功能特点</h2>
+        <ul>
+            <li>支持HTML文件管理</li>
+            <li>自动文件名加密</li>
+            <li>CSS/JS合并功能</li>
+            <li>数据库记录管理</li>
+            <li>搜索和筛选功能</li>
+        </ul>
+        
+        <h2>交互演示</h2>
+        <p>点击下面的按钮来测试JavaScript功能：</p>
+        <button onclick="showMessage()">点击我</button>
+        <div id="message" style="margin-top: 10px; padding: 10px; background-color: #e3f2fd; border-radius: 4px; display: none;"></div>
+        
+        <h2>技术说明</h2>
+        <p>这个示例文件展示了：</p>
+        <ul>
+            <li>HTML5语义化标签</li>
+            <li>CSS样式设计</li>
+            <li>JavaScript交互功能</li>
+            <li>响应式布局</li>
+        </ul>
+    </div>
+    
+    <script>
+        function showMessage() {
+            const messageDiv = document.getElementById('message');
+            messageDiv.style.display = 'block';
+            messageDiv.innerHTML = '<strong>成功！</strong> JavaScript功能正常工作。这个消息是动态生成的。';
+            
+            // 3秒后自动隐藏消息
+            setTimeout(() => {
+                messageDiv.style.display = 'none';
+            }, 3000);
+        }
+        
+        // 页面加载完成后的初始化
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('示例HTML文件已加载完成');
+            
+            // 添加一些动态效果
+            const highlightElements = document.querySelectorAll('.highlight');
+            highlightElements.forEach(element => {
+                element.addEventListener('mouseover', function() {
+                    this.style.backgroundColor = '#ffc107';
+                });
+                element.addEventListener('mouseout', function() {
+                    this.style.backgroundColor = '#ffeb3b';
+                });
+            });
+        });
+    </script>
+
+</body></html>

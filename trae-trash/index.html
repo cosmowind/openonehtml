@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OpenOneHTML - HTML文件管理系统</title>
+    
+    <!-- CSS文件 -->
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/global.css">
+    <link rel="stylesheet" href="css/header.css">
+    <link rel="stylesheet" href="css/stats-panel.css">
+    <link rel="stylesheet" href="css/search-panel.css">
+    <link rel="stylesheet" href="css/file-list.css">
+    <link rel="stylesheet" href="css/modal.css">
+    
+    <!-- 图标库 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- 加载遮罩 -->
+    <div id="loadingOverlay" class="loading-overlay">
+        <div class="loading-spinner"></div>
+        <div class="loading-text">正在加载...</div>
+    </div>
+    
+    <!-- 头部 -->
+    <header class="header">
+        <div class="header-container">
+            <div class="header-logo">
+                <i class="fas fa-code"></i>
+                <span>OpenOneHTML</span>
+            </div>
+            <div class="header-actions">
+                <button class="btn btn-primary refresh-btn" onclick="app.refresh()">
+                    <i class="fas fa-sync-alt"></i> 刷新
+                </button>
+                <button class="btn btn-settings settings-btn" onclick="showSettings()">
+                    <i class="fas fa-cog"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+    
+    <!-- 主内容区 -->
+    <main class="main-content">
+        <div class="container">
+            <!-- 统计面板 -->
+            <section id="statsPanel" class="stats-panel">
+                <div class="stats-container">
+                    <div class="stat-card" data-type="total-files">
+                        <div class="stat-icon">
+                            <i class="fas fa-file-alt"></i>
+                        </div>
+                        <div class="stat-content">
+                            <div class="stat-value">0</div>
+                            <div class="stat-label">文件总数</div>
+                        </div>
+                    </div>
+                    <div class="stat-card" data-type="categories">
+                        <div class="stat-icon">
+                            <i class="fas fa-folder"></i>
+                        </div>
+                        <div class="stat-content">
+                            <div class="stat-value">0</div>
+                            <div class="stat-label">分类数量</div>
+                        </div>
+                    </div>
+                    <div class="stat-card" data-type="tags">
+                        <div class="stat-icon">
+                            <i class="fas fa-tags"></i>
+                        </div>
+                        <div class="stat-content">
+                            <div class="stat-value">0</div>
+                            <div class="stat-label">标签数量</div>
+                        </div>
+                    </div>
+                    <div class="stat-card" data-type="models">
+                        <div class="stat-icon">
+                            <i class="fas fa-robot"></i>
+                        </div>
+                        <div class="stat-content">
+                            <div class="stat-value">0</div>
+                            <div class="stat-label">模型数量</div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- 搜索面板 -->
+            <section id="searchPanel" class="search-panel">
+                <div class="search-container">
+                    <div class="search-input-group">
+                        <input 
+                            type="text" 
+                            id="searchInput" 
+                            class="search-input" 
+                            placeholder="搜索文件名称、场景或描述..."
+                        >
+                        <button id="searchBtn" class="btn btn-primary">
+                            <i class="fas fa-search"></i> 搜索
+                        </button>
+                        <button id="resetSearchBtn" class="btn btn-secondary">
+                            <i class="fas fa-times"></i> 重置
+                        </button>
+                    </div>
+                    
+                    <div class="filter-group">
+                        <div class="filter-item">
+                            <label for="categoryFilter">分类:</label>
+                            <select id="categoryFilter" class="filter-select">
+                                <option value="">全部分类</option>
+                            </select>
+                        </div>
+                        
+                        <div class="filter-item">
+                            <label for="tagFilter">标签:</label>
+                            <select id="tagFilter" class="filter-select" multiple>
+                            </select>
+                        </div>
+                        
+                        <div class="filter-item">
+                            <label for="modelFilter">模型:</label>
+                            <select id="modelFilter" class="filter-select" multiple>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="search-actions">
+                        <button id="tagManagerBtn" class="btn btn-outline">
+                            <i class="fas fa-tags"></i> 管理标签
+                        </button>
+                        <button id="modelManagerBtn" class="btn btn-outline">
+                            <i class="fas fa-robot"></i> 管理模型
+                        </button>
+                    </div>
+                    
+                    <div id="searchResultsCount" class="search-results-count">
+                        搜索结果: 0 个文件
+                    </div>
+                </div>
+            </section>
+            
+            <!-- 文件列表 -->
+            <section id="fileList" class="file-list">
+                <div class="file-list-container" style="display: grid !important; grid-template-columns: repeat(3, 1fr) !important; gap: 20px;">
+                    <!-- 文件卡片将在这里动态生成 -->
+                </div>
+            </section>
+        </div>
+    </main>
+    
+    <!-- 文件卡片模板 -->
+    <template id="fileCardTemplate">
+        <div class="file-card" style="width: 100%; height: auto;">
+            <div class="file-card-header">
+                <h3 class="file-name"></h3>
+                <div class="file-actions">
+                    <button class="btn btn-sm btn-primary view-btn">
+                        <i class="fas fa-eye"></i> 查看
+                    </button>
+                    <button class="btn btn-sm btn-secondary edit-btn">
+                        <i class="fas fa-edit"></i> 编辑
+                    </button>
+                    <button class="btn btn-sm btn-danger delete-btn">
+                        <i class="fas fa-trash"></i> 删除
+                    </button>
+                </div>
+            </div>
+            <div class="file-card-body">
+                <div class="file-info">
+                    <div class="info-item">
+                        <span class="info-label">场景:</span>
+                        <span class="info-value"></span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">分类:</span>
+                        <span class="info-value"></span>
+                    </div>
+                </div>
+                <div class="file-tags"></div>
+                <div class="file-models"></div>
+                <div class="file-description"></div>
+            </div>
+            <div class="file-card-footer">
+                <div class="file-meta">
+                    <span class="meta-item"></span>
+                    <span class="meta-item"></span>
+                </div>
+            </div>
+        </div>
+    </template>
+    
+    <!-- 编辑文件模态框 -->
+    <div id="editFileModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">编辑文件</h2>
+                <button class="close-btn" onclick="uiManager.getComponent('modalManager').closeModal('editFileModal')">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="editFileForm">
+                    <input type="hidden" id="editFileId">
+                    
+                    <div class="form-group">
+                        <label for="editFileName">文件名称:</label>
+                        <input type="text" id="editFileName" class="form-control" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="editScene">场景:</label>
+                        <input type="text" id="editScene" class="form-control">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="editDescription">描述:</label>
+                        <textarea id="editDescription" class="form-control" rows="3"></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="editTagsSelect">标签:</label>
+                        <select id="editTagsSelect" class="form-control" multiple>
+                        </select>
+                        <div class="form-help">按住Ctrl键可选择多个标签</div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="newTagInput">添加新标签:</label>
+                        <input type="text" id="newTagInput" class="form-control" placeholder="输入新标签，多个标签用逗号分隔">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="editModelsSelect">模型:</label>
+                        <select id="editModelsSelect" class="form-control" multiple>
+                        </select>
+                        <div class="form-help">按住Ctrl键可选择多个模型</div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="newModelInput">添加新模型:</label>
+                        <input type="text" id="newModelInput" class="form-control" placeholder="输入新模型，多个模型用逗号分隔">
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="uiManager.getComponent('modalManager').closeModal('editFileModal')">
+                    取消
+                </button>
+                <button class="btn btn-primary" onclick="saveFileChanges()">
+                    保存
+                </button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- 删除文件模态框 -->
+    <div id="deleteFileModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">删除文件</h2>
+                <button class="close-btn" onclick="uiManager.getComponent('modalManager').closeModal('deleteFileModal')">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>确定要删除文件 <strong id="deleteFileName"></strong> 吗？</p>
+                <p class="text-warning">此操作不可撤销。</p>
+                <input type="hidden" id="deleteFileId">
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="uiManager.getComponent('modalManager').closeModal('deleteFileModal')">
+                    取消
+                </button>
+                <button class="btn btn-danger" onclick="confirmDeleteFile()">
+                    删除
+                </button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- 预置选项管理器模态框 -->
+    <div id="presetManagerModal" class="modal">
+        <div class="modal-content modal-lg">
+            <div class="modal-header">
+                <h2 class="modal-title">预置选项管理</h2>
+                <button class="close-btn" onclick="uiManager.getComponent('modalManager').closeModal('presetManagerModal')">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="preset-manager-container">
+                    <div class="preset-manager-header">
+                        <div class="preset-manager-tabs">
+                            <button class="tab-btn active" onclick="switchPresetTab('tags')">标签管理</button>
+                            <button class="tab-btn" onclick="switchPresetTab('models')">模型管理</button>
+                        </div>
+                        <button class="btn btn-primary" onclick="addNewPreset()">
+                            <i class="fas fa-plus"></i> 添加新项
+                        </button>
+                    </div>
+                    
+                    <div class="preset-manager-content">
+                        <div id="presetManagerList" class="preset-manager-list">
+                            <!-- 预置选项列表将在这里动态生成 -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="uiManager.getComponent('modalManager').closeModal('presetManagerModal')">
+                    关闭
+                </button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- JavaScript文件 -->
+    <script src="js/data-manager.js"></script>
+    <script src="js/preset-manager.js"></script>
+    <script src="js/ui-manager.js"></script>
+    <script src="js/components.js"></script>
+    <script src="js/app.js"></script>
+
+
+    <!-- 强制样式覆盖 -->
+    <style>
+        /* 强制确保网格布局 */
+        .file-list-container {
+            display: grid !important;
+            grid-template-columns: repeat(3, 1fr) !important;
+            gap: 20px !important;
+        }
+
+        /* 强制确保卡片样式 */
+        .file-card {
+            width: 100% !important;
+            height: auto !important;
+            display: flex !important;
+            flex-direction: column !important;
+        }
+
+        /* 在大屏幕上确保3列 */
+        @media (min-width: 1200px) {
+            .file-list-container {
+                grid-template-columns: repeat(3, 1fr) !important;
+            }
+        }
+
+        /* 在中等屏幕上确保2列 */
+        @media (max-width: 1199px) and (min-width: 768px) {
+            .file-list-container {
+                grid-template-columns: repeat(2, 1fr) !important;
+            }
+        }
+
+        /* 在小屏幕上确保1列 */
+        @media (max-width: 768px) {
+            .file-list-container {
+                grid-template-columns: 1fr !important;
+            }
+        }
+    </style>
+
+    <!-- 调试代码 -->
+    <script>
+        // 添加调试面板
+        function addDebugPanel() {
+            const debugPanel = document.createElement('div');
+            debugPanel.id = 'debug-panel';
+            debugPanel.style.cssText = `
+                position: fixed;
+                top: 10px;
+                right: 10px;
+                background: rgba(0,0,0,0.9);
+                color: white;
+                padding: 15px;
+                border-radius: 8px;
+                font-size: 12px;
+                z-index: 9999;
+                max-width: 300px;
+                font-family: monospace;
+            `;
+
+            document.body.appendChild(debugPanel);
+
+            function updateDebug() {
+                const container = document.querySelector('.file-list-container');
+                const cards = document.querySelectorAll('.file-card');
+
+                if (!container || cards.length === 0) {
+                    debugPanel.innerHTML = '等待元素加载...';
+                    return;
+                }
+
+                const containerStyle = getComputedStyle(container);
+                const firstCardStyle = getComputedStyle(cards[0]);
+
+                debugPanel.innerHTML = `
+                    <div style="margin-bottom: 10px; font-weight: bold;">🔍 布局调试信息</div>
+
+                    <div style="margin-bottom: 8px;">
+                        <strong>容器:</strong><br>
+                        显示: ${containerStyle.display}<br>
+                        网格列: ${containerStyle.gridTemplateColumns}<br>
+                        宽度: ${container.offsetWidth}px
+                    </div>
+
+                    <div style="margin-bottom: 8px;">
+                        <strong>卡片:</strong><br>
+                        数量: ${cards.length}<br>
+                        显示: ${firstCardStyle.display}<br>
+                        宽度: ${cards[0].offsetWidth}px<br>
+                        高度: ${cards[0].offsetHeight}px<br>
+                        Flex属性: ${firstCardStyle.flexShrink}/${firstCardStyle.flexGrow}
+                    </div>
+
+                    <div style="margin-bottom: 8px;">
+                        <strong>布局状态:</strong><br>
+                        ${containerStyle.display === 'grid' ? '✅ 网格布局正常' : '❌ 网格布局失效'}<br>
+                        ${containerStyle.gridTemplateColumns.includes('1fr') ? '✅ 网格列设置正确' : '❌ 网格列设置错误'}<br>
+                        ${cards[0].offsetWidth < container.offsetWidth * 0.5 ? '✅ 卡片宽度适中' : '❌ 卡片宽度过大'}<br>
+                        ${firstCardStyle.height === 'auto' ? '✅ 高度自适应' : '❌ 高度固定'}
+                    </div>
+                `;
+            }
+
+            updateDebug();
+            setInterval(updateDebug, 1000);
+        }
+
+        // 页面加载完成后添加调试面板
+        window.addEventListener('load', function() {
+            console.log('=== 添加调试面板 ===');
+            addDebugPanel();
+        });
+    </script>
+
+    <!-- 全局函数 -->
+    <script>
+        // 显示设置
+        function showSettings() {
+            alert('设置功能正在开发中...');
+        }
+        
+        // 保存文件更改
+        function saveFileChanges() {
+            const fileId = document.getElementById('editFileId').value;
+            const fileName = document.getElementById('editFileName').value;
+            const scene = document.getElementById('editScene').value;
+            const description = document.getElementById('editDescription').value;
+            
+            if (!fileId || !fileName) {
+                alert('请填写文件名称');
+                return;
+            }
+            
+            // 获取选中的标签
+            const selectedTags = presetManager.getSelectedTags();
+            
+            // 获取选中的模型
+            const selectedModels = presetManager.getSelectedModels();
+            
+            // 更新文件
+            const updateData = {
+                name: fileName,
+                scene: scene,
+                description: description,
+                tags: selectedTags,
+                models: selectedModels
+            };
+            
+            dataManager.updateFile(fileId, updateData)
+                .then(() => {
+                    uiManager.getComponent('modalManager').closeModal('editFileModal');
+                    uiManager.showMessage('文件更新成功', 'success');
+                })
+                .catch(error => {
+                    console.error('Failed to save file changes:', error);
+                    uiManager.showMessage('文件更新失败', 'error');
+                });
+        }
+        
+        // 确认删除文件
+        function confirmDeleteFile() {
+            const fileId = document.getElementById('deleteFileId').value;
+            
+            if (!fileId) {
+                alert('无效的文件ID');
+                return;
+            }
+            
+            dataManager.deleteFile(fileId)
+                .then(() => {
+                    uiManager.getComponent('modalManager').closeModal('deleteFileModal');
+                    uiManager.showMessage('文件删除成功', 'success');
+                })
+                .catch(error => {
+                    console.error('Failed to delete file:', error);
+                    uiManager.showMessage('文件删除失败', 'error');
+                });
+        }
+        
+        // 切换预置选项标签
+        function switchPresetTab(type) {
+            const modal = document.getElementById('presetManagerModal');
+            modal.setAttribute('data-type', type);
+            
+            // 更新标签页状态
+            const tabBtns = modal.querySelectorAll('.tab-btn');
+            tabBtns.forEach(btn => {
+                btn.classList.remove('active');
+            });
+            
+            const activeBtn = Array.from(tabBtns).find(btn => 
+                btn.textContent.includes(type === 'tags' ? '标签' : '模型')
+            );
+            if (activeBtn) {
+                activeBtn.classList.add('active');
+            }
+            
+            // 更新列表
+            presetManager.populateManagerList(type);
+        }
+        
+        // 添加新预置选项
+        function addNewPreset() {
+            const modal = document.getElementById('presetManagerModal');
+            const type = modal.getAttribute('data-type') || 'tags';
+            
+            const name = prompt(`请输入新的${type === 'tags' ? '标签' : '模型'}名称:`);
+            if (!name) return;
+            
+            if (type === 'tags') {
+                if (presetManager.addTag(name)) {
+                    presetManager.populateManagerList(type);
+                    uiManager.showMessage('标签添加成功', 'success');
+                } else {
+                    uiManager.showMessage('标签添加失败', 'error');
+                }
+            } else {
+                if (presetManager.addModel(name)) {
+                    presetManager.populateManagerList(type);
+                    uiManager.showMessage('模型添加成功', 'success');
+                } else {
+                    uiManager.showMessage('模型添加失败', 'error');
+                }
+            }
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,34 @@
+# OpenOneHTML 简化配置示例
+# 只需要填写三个核心分类：背景需求、提示词、开发模型
+
+# === 背景需求 ===
+background_requirements:
+  preset: "网页应用开发"  # 从预设中选择
+  custom: ""  # 如果预设不满足，可以在这里自定义
+
+# === 提示词 ===
+prompt:
+  preset: "创建一个响应式网页应用"  # 从预设中选择
+  custom: ""  # 自定义提示词
+
+# === 开发模型 ===
+development_models:
+  - name: "Human Developer"
+    version: "1.0.0"
+    performance:
+      accuracy: 95
+      efficiency: 90
+      creativity: 85
+  - name: "AI Assistant"
+    version: "1.0.0"
+    performance:
+      accuracy: 85
+      efficiency: 95
+      creativity: 90
+
+# === 可选信息 ===
+optional_info:
+  title: ""  # 留空则使用文件名
+  tags: []  # 标签，会根据背景需求自动生成
+  category: ""  # 分类，会根据背景需求自动设置
+  description: ""  # 描述，会根据提示词自动生成

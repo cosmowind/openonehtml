@@ -1,0 +1,22 @@
+{
+  "original_name": "glm45-截屏手机坐标.html",
+  "scene": "开发影刀手机自动化任务，需要从截图中获取每个点的坐标",
+  "prompt": "我有一个手机截图，想要通过一个html来实时了解到鼠标所放置的位置的坐标点是多少，帮我写一个html实现。",
+  "models": [
+    {
+      "name": "Human Developer",
+      "role": "developer",
+      "description": "负责开发 glm45-截屏手机坐标.html"
+    }
+  ],
+  "tags": [
+    "自动化"
+  ],
+  "features": [
+    "responsive_design",
+    "modern_ui",
+    "interactive_elements"
+  ],
+  "created_at": "2025-08-20T06:10:07.550Z",
+  "updated_at": "2025-08-20T06:10:07.550Z"
+}

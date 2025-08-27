@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>手机截图坐标检测工具</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            margin: 0;
+            padding: 20px;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .container {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            padding: 30px;
+            width: 90%;
+            max-width: 800px;
+            text-align: center;
+        }
+        
+        h1 {
+            color: #333;
+            margin-bottom: 10px;
+        }
+        
+        .subtitle {
+            color: #666;
+            margin-bottom: 30px;
+        }
+        
+        .upload-area {
+            border: 3px dashed #ccc;
+            border-radius: 10px;
+            padding: 40px;
+            text-align: center;
+            margin-bottom: 30px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .upload-area:hover {
+            border-color: #667eea;
+            background-color: #f8f9ff;
+        }
+        
+        .upload-area.dragover {
+            border-color: #667eea;
+            background-color: #eef1ff;
+        }
+        
+        .upload-icon {
+            font-size: 48px;
+            color: #667eea;
+            margin-bottom: 15px;
+        }
+        
+        .upload-text {
+            color: #666;
+            font-size: 18px;
+            margin-bottom: 15px;
+        }
+        
+        .file-input {
+            display: none;
+        }
+        
+        .upload-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: transform 0.2s ease;
+        }
+        
+        .upload-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        
+        .image-container {
+            position: relative;
+            display: inline-block;
+            margin: 20px 0;
+            max-width: 100%;
+        }
+        
+        #screenshot {
+            max-width: 100%;
+            height: auto;
+            display: none;
+            border-radius: 8px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+        }
+        
+        .coordinates-display {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 20px;
+            display: none;
+        }
+        
+        .coordinate-item {
+            display: inline-block;
+            margin: 0 15px;
+        }
+        
+        .coordinate-label {
+            font-weight: bold;
+            color: #667eea;
+            font-size: 14px;
+        }
+        
+        .coordinate-value {
+            font-size: 18px;
+            font-weight: bold;
+            color: #333;
+        }
+        
+        .reset-btn {
+            background: #ff6b6b;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 20px;
+            cursor: pointer;
+            margin-top: 15px;
+            font-size: 14px;
+            transition: background 0.3s ease;
+        }
+        
+        .reset-btn:hover {
+            background: #ff5252;
+        }
+        
+        .instructions {
+            background: #e3f2fd;
+            border-left: 4px solid #2196f3;
+            padding: 15px;
+            border-radius: 0 8px 8px 0;
+            margin-top: 20px;
+            text-align: left;
+        }
+        
+        .instructions h3 {
+            margin-top: 0;
+            color: #1976d2;
+        }
+        
+        .instructions ol {
+            padding-left: 20px;
+        }
+        
+        .instructions li {
+            margin-bottom: 10px;
+            color: #555;
+        }
+        
+        .crosshair {
+            position: absolute;
+            pointer-events: none;
+            display: none;
+        }
+        
+        .crosshair-line {
+            position: absolute;
+            background-color: rgba(255, 0, 0, 0.7);
+        }
+        
+        .crosshair-horizontal {
+            width: 100%;
+            height: 1px;
+        }
+        
+        .crosshair-vertical {
+            width: 1px;
+            height: 100%;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>📱 手机截图坐标检测工具</h1>
+        <p class="subtitle">上传截图并实时查看鼠标位置坐标</p>
+        
+        <div class="upload-area" id="uploadArea">
+            <div class="upload-icon">📁</div>
+            <p class="upload-text">拖拽图片到此处或点击上传</p>
+            <button class="upload-btn" id="uploadBtn">选择截图文件</button>
+            <input type="file" id="fileInput" class="file-input" accept="image/*">
+        </div>
+        
+        <div class="image-container">
+            <img id="screenshot" alt="手机截图">
+            <div class="crosshair" id="crosshair">
+                <div class="crosshair-line crosshair-horizontal"></div>
+                <div class="crosshair-line crosshair-vertical"></div>
+            </div>
+        </div>
+        
+        <div class="coordinates-display" id="coordinatesDisplay">
+            <div class="coordinate-item">
+                <div class="coordinate-label">X 坐标</div>
+                <div class="coordinate-value" id="xCoordinate">0</div>
+            </div>
+            <div class="coordinate-item">
+                <div class="coordinate-label">Y 坐标</div>
+                <div class="coordinate-value" id="yCoordinate">0</div>
+            </div>
+            <div class="coordinate-item">
+                <div class="coordinate-label">相对 X (%)</div>
+                <div class="coordinate-value" id="xPercent">0%</div>
+            </div>
+            <div class="coordinate-item">
+                <div class="coordinate-label">相对 Y (%)</div>
+                <div class="coordinate-value" id="yPercent">0%</div>
+            </div>
+            <br>
+            <button class="reset-btn" id="resetBtn">重置图片</button>
+        </div>
+        
+        <div class="instructions">
+            <h3>使用说明：</h3>
+            <ol>
+                <li>点击"选择截图文件"按钮或拖拽图片上传手机截图</li>
+                <li>将鼠标悬停在图片上查看实时坐标</li>
+                <li>X/Y 坐标表示相对于图片左上角的像素位置</li>
+                <li>相对坐标表示相对于图片尺寸的百分比位置</li>
+                <li>点击"重置图片"可重新上传新图片</li>
+            </ol>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const fileInput = document.getElementById('fileInput');
+            const uploadBtn = document.getElementById('uploadBtn');
+            const uploadArea = document.getElementById('uploadArea');
+            const screenshot = document.getElementById('screenshot');
+            const coordinatesDisplay = document.getElementById('coordinatesDisplay');
+            const xCoordinate = document.getElementById('xCoordinate');
+            const yCoordinate = document.getElementById('yCoordinate');
+            const xPercent = document.getElementById('xPercent');
+            const yPercent = document.getElementById('yPercent');
+            const resetBtn = document.getElementById('resetBtn');
+            const crosshair = document.getElementById('crosshair');
+            
+            // 上传按钮点击事件
+            uploadBtn.addEventListener('click', function() {
+                fileInput.click();
+            });
+            
+            // 文件选择事件
+            fileInput.addEventListener('change', function(e) {
+                handleFileSelect(e.target.files[0]);
+            });
+            
+            // 拖拽上传功能
+            uploadArea.addEventListener('dragover', function(e) {
+                e.preventDefault();
+                uploadArea.classList.add('dragover');
+            });
+            
+            uploadArea.addEventListener('dragleave', function() {
+                uploadArea.classList.remove('dragover');
+            });
+            
+            uploadArea.addEventListener('drop', function(e) {
+                e.preventDefault();
+                uploadArea.classList.remove('dragover');
+                if (e.dataTransfer.files.length) {
+                    handleFileSelect(e.dataTransfer.files[0]);
+                }
+            });
+            
+            // 处理文件选择
+            function handleFileSelect(file) {
+                if (!file || !file.type.match('image.*')) {
+                    alert('请选择图片文件！');
+                    return;
+                }
+                
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    screenshot.src = e.target.result;
+                    screenshot.onload = function() {
+                        // 显示图片和坐标显示区域
+                        screenshot.style.display = 'block';
+                        coordinatesDisplay.style.display = 'block';
+                        uploadArea.style.display = 'none';
+                    };
+                };
+                reader.readAsDataURL(file);
+            }
+            
+            // 鼠标在图片上移动时显示坐标
+            screenshot.addEventListener('mousemove', function(e) {
+                const rect = screenshot.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                
+                // 确保坐标在图片范围内
+                if (x >= 0 && x <= rect.width && y >= 0 && y <= rect.height) {
+                    // 更新坐标显示
+                    xCoordinate.textContent = Math.round(x);
+                    yCoordinate.textContent = Math.round(y);
+                    
+                    // 计算相对百分比
+                    const xPercentValue = ((x / rect.width) * 100).toFixed(1);
+                    const yPercentValue = ((y / rect.height) * 100).toFixed(1);
+                    
+                    xPercent.textContent = xPercentValue + '%';
+                    yPercent.textContent = yPercentValue + '%';
+                    
+                    // 显示十字线
+                    crosshair.style.display = 'block';
+                    crosshair.style.left = e.clientX + 'px';
+                    crosshair.style.top = e.clientY + 'px';
+                }
+            });
+            
+            // 鼠标离开图片时隐藏坐标和十字线
+            screenshot.addEventListener('mouseleave', function() {
+                crosshair.style.display = 'none';
+            });
+            
+            // 重置按钮事件
+            resetBtn.addEventListener('click', function() {
+                // 重置所有状态
+                fileInput.value = '';
+                screenshot.src = '';
+                screenshot.style.display = 'none';
+                coordinatesDisplay.style.display = 'none';
+                uploadArea.style.display = 'block';
+                crosshair.style.display = 'none';
+            });
+        });
+    </script>
+</body>
+</html>

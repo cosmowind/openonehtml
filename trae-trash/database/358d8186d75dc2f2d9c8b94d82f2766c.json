@@ -1,0 +1,36 @@
+{
+  "original_name": "示例文件.html",
+  "scene": "项目功能演示",
+  "prompt": "创建一个示例HTML文件，展示OpenOneHTML项目的核心功能，包括HTML结构、CSS样式和JavaScript交互功能。",
+  "models": [
+    {
+      "name": "Human Developer",
+      "version": "1.0.0",
+      "performance": {
+        "accuracy": 95,
+        "efficiency": 90,
+        "creativity": 85
+      }
+    }
+  ],
+  "tags": ["示例", "演示", "功能测试", "教程"],
+  "category": "示例文件",
+  "description": "这是一个示例HTML文件，用于演示OpenOneHTML项目的完整功能。文件包含了HTML5语义化标签、CSS样式设计、JavaScript交互功能以及响应式布局。通过这个示例，用户可以了解项目的基本工作流程和功能特点。",
+  "features": [
+    "HTML5语义化结构",
+    "CSS样式设计",
+    "JavaScript交互功能",
+    "响应式布局",
+    "事件处理",
+    "动态内容生成"
+  ],
+  "complexity": "简单",
+  "estimated_time": "5分钟",
+  "created_date": "2024-01-01",
+  "last_modified": "2024-01-01",
+  "author": "OpenOneHTML Team",
+  "license": "MIT",
+  "access_count": 0,
+  "rating": 0,
+  "comments": []
+}

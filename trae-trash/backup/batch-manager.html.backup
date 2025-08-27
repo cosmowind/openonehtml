@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>批量文件管理 - OpenOneHTML</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #333;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            color: white;
+            margin-bottom: 40px;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        .main-content {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        .section {
+            margin-bottom: 30px;
+        }
+
+        .section h2 {
+            color: #667eea;
+            margin-bottom: 15px;
+            font-size: 1.5rem;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: #495057;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e1e5e9;
+            border-radius: 8px;
+            font-size: 14px;
+            transition: border-color 0.3s;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        textarea.form-control {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        .file-upload-area {
+            border: 2px dashed #667eea;
+            border-radius: 10px;
+            padding: 40px;
+            text-align: center;
+            background: #f8f9ff;
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+
+        .file-upload-area:hover {
+            background: #f0f2ff;
+        }
+
+        .file-upload-area.dragover {
+            background: #e8ebff;
+            border-color: #5a6fd8;
+        }
+
+        .upload-icon {
+            font-size: 3rem;
+            color: #667eea;
+            margin-bottom: 15px;
+        }
+
+        .upload-text {
+            color: #6c757d;
+            margin-bottom: 10px;
+        }
+
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 500;
+        }
+
+        .btn-primary {
+            background: #667eea;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #5a6fd8;
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background: #6c757d;
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background: #5a6268;
+        }
+
+        .btn-success {
+            background: #28a745;
+            color: white;
+        }
+
+        .btn-success:hover {
+            background: #218838;
+        }
+
+        .file-list {
+            margin-top: 20px;
+        }
+
+        .file-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 15px;
+            border: 1px solid #e1e5e9;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            background: #f8f9fa;
+        }
+
+        .file-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .file-icon {
+            font-size: 1.5rem;
+            color: #667eea;
+        }
+
+        .file-details h4 {
+            margin-bottom: 5px;
+            color: #495057;
+        }
+
+        .file-details p {
+            color: #6c757d;
+            font-size: 0.9rem;
+        }
+
+        .model-selector {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .model-selector select {
+            padding: 8px 12px;
+            border: 1px solid #e1e5e9;
+            border-radius: 6px;
+            font-size: 14px;
+        }
+
+        .remove-file {
+            background: #dc3545;
+            color: white;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 12px;
+        }
+
+        .remove-file:hover {
+            background: #c82333;
+        }
+
+        .common-settings {
+            background: #f8f9ff;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 30px;
+        }
+
+        .common-settings h3 {
+            color: #667eea;
+            margin-bottom: 15px;
+        }
+
+        .settings-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 20px;
+            background: #e9ecef;
+            border-radius: 10px;
+            overflow: hidden;
+            margin-top: 20px;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            width: 0%;
+            transition: width 0.3s;
+        }
+
+        .progress-text {
+            text-align: center;
+            margin-top: 10px;
+            color: #6c757d;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-bottom: 20px;
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .back-link:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>批量文件管理</h1>
+            <p>上传一组HTML文件，设置共同的背景、提示词和标签，为每个文件分配不同的开发模型</p>
+        </div>
+
+        <div class="main-content">
+            <a href="index.html" class="back-link">← 返回主页</a>
+
+            <!-- 共同设置区域 -->
+            <div class="common-settings">
+                <h3>📋 共同设置</h3>
+                <div class="settings-grid">
+                    <div class="form-group">
+                        <label class="form-label">背景需求</label>
+                        <textarea class="form-control" id="common-scene" placeholder="请输入共同的背景需求描述..."></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">提示词</label>
+                        <textarea class="form-control" id="common-prompt" placeholder="请输入共同的提示词..."></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">标签</label>
+                        <input type="text" class="form-control" id="common-tags" placeholder="请输入标签，用逗号分隔...">
+                    </div>
+                </div>
+            </div>
+
+            <!-- 文件上传区域 -->
+            <div class="section">
+                <h2>📁 上传HTML文件</h2>
+                <div class="file-upload-area" id="upload-area">
+                    <div class="upload-icon">📁</div>
+                    <div class="upload-text">拖拽HTML文件到此处，或点击选择文件</div>
+                    <input type="file" id="file-input" multiple accept=".html" style="display: none;">
+                    <button class="btn btn-primary" onclick="document.getElementById('file-input').click()">选择文件</button>
+                </div>
+
+                <!-- 文件列表 -->
+                <div class="file-list" id="file-list"></div>
+            </div>
+
+            <!-- 操作按钮 -->
+            <div class="section">
+                <button class="btn btn-success" id="process-btn" onclick="processFiles()">🚀 处理文件</button>
+                <button class="btn btn-secondary" onclick="clearAllFiles()">清空列表</button>
+            </div>
+
+            <!-- 进度条 -->
+            <div class="progress-section hidden" id="progress-section">
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progress-fill"></div>
+                </div>
+                <div class="progress-text" id="progress-text">准备处理...</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 全局变量
+        let uploadedFiles = [];
+        
+        // 预设的开发模型选项
+        const modelOptions = [
+            'Human Developer',
+            'AI Assistant', 
+            'Code Reviewer',
+            'UI/UX Designer',
+            'Frontend Developer',
+            'Backend Developer',
+            'Full Stack Developer',
+            'DevOps Engineer'
+        ];
+
+        // 初始化
+        document.addEventListener('DOMContentLoaded', function() {
+            setupFileUpload();
+        });
+
+        // 设置文件上传功能
+        function setupFileUpload() {
+            const uploadArea = document.getElementById('upload-area');
+            const fileInput = document.getElementById('file-input');
+
+            // 点击上传区域触发文件选择
+            uploadArea.addEventListener('click', function() {
+                fileInput.click();
+            });
+
+            // 文件选择事件
+            fileInput.addEventListener('change', function(e) {
+                handleFiles(e.target.files);
+            });
+
+            // 拖拽事件
+            uploadArea.addEventListener('dragover', function(e) {
+                e.preventDefault();
+                uploadArea.classList.add('dragover');
+            });
+
+            uploadArea.addEventListener('dragleave', function(e) {
+                e.preventDefault();
+                uploadArea.classList.remove('dragover');
+            });
+
+            uploadArea.addEventListener('drop', function(e) {
+                e.preventDefault();
+                uploadArea.classList.remove('dragover');
+                handleFiles(e.dataTransfer.files);
+            });
+        }
+
+        // 处理上传的文件
+        function handleFiles(files) {
+            for (let file of files) {
+                if (file.type === 'text/html' || file.name.endsWith('.html')) {
+                    const fileData = {
+                        id: Date.now() + Math.random(),
+                        file: file,
+                        name: file.name,
+                        size: file.size,
+                        model: modelOptions[0] // 默认选择第一个模型
+                    };
+                    uploadedFiles.push(fileData);
+                    addFileToList(fileData);
+                }
+            }
+        }
+
+        // 添加文件到列表
+        function addFileToList(fileData) {
+            const fileList = document.getElementById('file-list');
+            const fileItem = document.createElement('div');
+            fileItem.className = 'file-item';
+            fileItem.dataset.fileId = fileData.id;
+
+            const modelOptionsHtml = modelOptions.map(model => 
+                `<option value="${model}" ${model === fileData.model ? 'selected' : ''}>${model}</option>`
+            ).join('');
+
+            fileItem.innerHTML = `
+                <div class="file-info">
+                    <div class="file-icon">📄</div>
+                    <div class="file-details">
+                        <h4>${fileData.name}</h4>
+                        <p>文件大小: ${formatFileSize(fileData.size)}</p>
+                    </div>
+                </div>
+                <div class="model-selector">
+                    <label>开发模型:</label>
+                    <select onchange="updateFileModel('${fileData.id}', this.value)">
+                        ${modelOptionsHtml}
+                    </select>
+                    <button class="remove-file" onclick="removeFile('${fileData.id}')">删除</button>
+                </div>
+            `;
+
+            fileList.appendChild(fileItem);
+        }
+
+        // 更新文件的模型
+        function updateFileModel(fileId, model) {
+            const file = uploadedFiles.find(f => f.id == fileId);
+            if (file) {
+                file.model = model;
+            }
+        }
+
+        // 删除文件
+        function removeFile(fileId) {
+            uploadedFiles = uploadedFiles.filter(f => f.id != fileId);
+            const fileItem = document.querySelector(`[data-file-id="${fileId}"]`);
+            if (fileItem) {
+                fileItem.remove();
+            }
+        }
+
+        // 清空所有文件
+        function clearAllFiles() {
+            uploadedFiles = [];
+            document.getElementById('file-list').innerHTML = '';
+        }
+
+        // 格式化文件大小
+        function formatFileSize(bytes) {
+            if (bytes === 0) return '0 Bytes';
+            const k = 1024;
+            const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+            const i = Math.floor(Math.log(bytes) / Math.log(k));
+            return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+        }
+
+        // 处理文件
+        async function processFiles() {
+            if (uploadedFiles.length === 0) {
+                alert('请先上传HTML文件');
+                return;
+            }
+
+            // 获取共同设置
+            const commonScene = document.getElementById('common-scene').value.trim();
+            const commonPrompt = document.getElementById('common-prompt').value.trim();
+            const commonTags = document.getElementById('common-tags').value.trim();
+
+            if (!commonScene || !commonPrompt) {
+                alert('请填写背景需求和提示词');
+                return;
+            }
+
+            // 显示进度条
+            const progressSection = document.getElementById('progress-section');
+            const progressFill = document.getElementById('progress-fill');
+            const progressText = document.getElementById('progress-text');
+            const processBtn = document.getElementById('process-btn');
+            
+            progressSection.classList.remove('hidden');
+            processBtn.disabled = true;
+            processBtn.textContent = '处理中...';
+
+            // 处理每个文件
+            const totalFiles = uploadedFiles.length;
+            for (let i = 0; i < totalFiles; i++) {
+                const fileData = uploadedFiles[i];
+                const progress = ((i + 1) / totalFiles) * 100;
+                
+                progressFill.style.width = progress + '%';
+                progressText.textContent = `正在处理: ${fileData.name} (${i + 1}/${totalFiles})`;
+
+                try {
+                    await processSingleFile(fileData, commonScene, commonPrompt, commonTags);
+                } catch (error) {
+                    console.error('处理文件失败:', error);
+                    alert(`处理文件 ${fileData.name} 时出错: ${error.message}`);
+                }
+
+                // 添加延迟以便看到进度
+                await new Promise(resolve => setTimeout(resolve, 500));
+            }
+
+            progressText.textContent = '处理完成！';
+            processBtn.disabled = false;
+            processBtn.textContent = '🚀 处理文件';
+            
+            alert('所有文件处理完成！');
+        }
+
+        // 处理单个文件
+        async function processSingleFile(fileData, scene, prompt, tags) {
+            return new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                
+                reader.onload = function(e) {
+                    try {
+                        const htmlContent = e.target.result;
+                        
+                        // 创建JSON配置
+                        const config = {
+                            original_name: fileData.name,
+                            scene: scene,
+                            prompt: prompt,
+                            models: [{
+                                name: fileData.model,
+                                role: 'developer',
+                                description: `负责开发 ${fileData.name}`
+                            }],
+                            tags: tags ? tags.split(',').map(tag => tag.trim()) : [],
+                            features: [
+                                'responsive_design',
+                                'modern_ui',
+                                'interactive_elements'
+                            ],
+                            created_at: new Date().toISOString(),
+                            updated_at: new Date().toISOString()
+                        };
+
+                        // 下载JSON文件
+                        const jsonBlob = new Blob([JSON.stringify(config, null, 2)], { type: 'application/json' });
+                        const jsonUrl = URL.createObjectURL(jsonBlob);
+                        const jsonLink = document.createElement('a');
+                        jsonLink.href = jsonUrl;
+                        jsonLink.download = fileData.name.replace('.html', '.json');
+                        jsonLink.click();
+                        URL.revokeObjectURL(jsonUrl);
+
+                        resolve();
+                    } catch (error) {
+                        reject(error);
+                    }
+                };
+
+                reader.onerror = function() {
+                    reject(new Error('文件读取失败'));
+                };
+
+                reader.readAsText(fileData.file);
+            });
+        }
+    </script>
+</body>
+</html>

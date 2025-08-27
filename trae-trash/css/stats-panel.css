@@ -1,0 +1,247 @@
+/* 统计面板组件样式 - Stats Panel Component Styles */
+
+.stats-panel {
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    border-radius: 15px;
+    padding: 25px;
+    margin-bottom: 30px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+    border: 1px solid rgba(255,255,255,0.2);
+}
+
+.stats-title {
+    font-size: 1.3rem;
+    font-weight: 600;
+    color: #333;
+    margin: 0 0 20px 0;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.stats-title-icon {
+    width: 24px;
+    height: 24px;
+    opacity: 0.8;
+}
+
+.stats-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+}
+
+.stat-card {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border-radius: 12px;
+    padding: 20px;
+    color: white;
+    transition: transform 0.3s, box-shadow 0.3s;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.stat-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(255,255,255,0.1);
+    transform: translateX(-100%);
+    transition: transform 0.6s;
+}
+
+.stat-card:hover::before {
+    transform: translateX(0);
+}
+
+.stat-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 24px rgba(0,0,0,0.2);
+}
+
+.stat-icon {
+    width: 40px;
+    height: 40px;
+    opacity: 0.9;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.stat-icon i {
+    font-size: 1.5rem;
+}
+
+.stat-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.stat-value {
+    font-size: 2.2rem;
+    font-weight: 700;
+    margin: 0;
+    line-height: 1;
+}
+
+.stat-label {
+    font-size: 0.9rem;
+    opacity: 0.9;
+    margin: 0;
+    font-weight: 400;
+}
+
+/* 不同类型的统计卡片 */
+.stat-card-primary {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+.stat-card-success {
+    background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+}
+
+.stat-card-warning {
+    background: linear-gradient(135deg, #ffc107 0%, #fd7e14 100%);
+}
+
+.stats-card-info {
+    background: linear-gradient(135deg, #17a2b8 0%, #6f42c1 100%);
+}
+
+.stats-card-danger {
+    background: linear-gradient(135deg, #dc3545 0%, #e83e8c 100%);
+}
+
+/* 统计详情 */
+.stats-details {
+    margin-top: 20px;
+    padding-top: 20px;
+    border-top: 1px solid rgba(255,255,255,0.2);
+}
+
+.stats-detail-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 0;
+    color: rgba(255,255,255,0.9);
+    font-size: 0.9rem;
+}
+
+.stats-detail-label {
+    font-weight: 500;
+}
+
+.stats-detail-value {
+    font-weight: 600;
+}
+
+/* 加载状态 */
+.stats-loading {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 40px;
+    color: #6c757d;
+}
+
+.stats-loading-spinner {
+    width: 30px;
+    height: 30px;
+    border: 3px solid rgba(102, 126, 234, 0.3);
+    border-top: 3px solid #667eea;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin-right: 15px;
+}
+
+/* 空状态 */
+.stats-empty {
+    text-align: center;
+    padding: 40px;
+    color: #6c757d;
+}
+
+.stats-empty-icon {
+    width: 48px;
+    height: 48px;
+    opacity: 0.5;
+    margin: 0 auto 15px;
+}
+
+.stats-empty-text {
+    font-size: 1rem;
+    margin: 0;
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+    .stats-panel {
+        padding: 20px;
+        margin-bottom: 20px;
+    }
+    
+    .stats-title {
+        font-size: 1.1rem;
+    }
+    
+    .stats-grid {
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+        gap: 15px;
+    }
+    
+    .stats-card {
+        padding: 15px;
+    }
+    
+    .stats-card-number {
+        font-size: 2rem;
+    }
+    
+    .stats-card-icon {
+        width: 32px;
+        height: 32px;
+    }
+}
+
+@media (max-width: 480px) {
+    .stats-panel {
+        padding: 15px;
+    }
+    
+    .stats-title {
+        font-size: 1rem;
+    }
+    
+    .stats-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+    }
+    
+    .stats-card {
+        padding: 12px;
+    }
+    
+    .stats-card-number {
+        font-size: 1.5rem;
+    }
+    
+    .stats-card-icon {
+        width: 28px;
+        height: 28px;
+    }
+    
+    .stats-card-label {
+        font-size: 0.8rem;
+    }
+}

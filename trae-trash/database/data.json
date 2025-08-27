@@ -1,0 +1,189 @@
+{
+  "version": "1.0",
+  "created_at": "2025-08-20T11:39:00Z",
+  "last_updated": "2025-08-20T07:24:53.925Z",
+  "html_files": [
+    {
+      "id": "358d8186d75dc2f2d9c8b94d82f2766c",
+      "original_name": "示例文件.html",
+      "scene": "项目功能演示",
+      "prompt": "创建一个示例HTML文件，展示OpenOneHTML项目的核心功能，包括HTML结构、CSS样式和JavaScript交互功能。",
+      "models": [
+        {
+          "name": "Human Developer",
+          "version": "1.0.0",
+          "performance": {
+            "accuracy": 95,
+            "efficiency": 90,
+            "creativity": 85
+          }
+        }
+      ],
+      "tags": [
+        "示例",
+        "演示",
+        "功能测试",
+        "教程"
+      ],
+      "category": "示例文件",
+      "description": "这是一个示例HTML文件，用于演示OpenOneHTML项目的完整功能。文件包含了HTML5语义化标签、CSS样式设计、JavaScript交互功能以及响应式布局。通过这个示例，用户可以了解项目的基本工作流程和功能特点。",
+      "file_size": 3232,
+      "created_at": "2025-08-20T03:45:58.189Z",
+      "updated_at": "2025-08-20T03:45:58.189Z",
+      "access_count": 0,
+      "rating": 0,
+      "compatibility": {}
+    },
+    {
+      "id": "338eee03402628616cfcb1b2e65b31d6",
+      "original_name": "测试文件.html",
+      "scene": "网页应用开发",
+      "prompt": "创建一个响应式网页应用，包含现代化的UI设计和良好的用户体验",
+      "models": [
+        {
+          "name": "Human Developer",
+          "version": "1.0.0",
+          "performance": {
+            "accuracy": 95,
+            "efficiency": 90,
+            "creativity": 85
+          }
+        },
+        {
+          "name": "AI Assistant",
+          "version": "1.0.0",
+          "performance": {
+            "accuracy": 85,
+            "efficiency": 95,
+            "creativity": 90
+          }
+        }
+      ],
+      "tags": [],
+      "category": "网页应用",
+      "description": "用于创建功能完整的网页应用程序",
+      "file_size": 3182,
+      "created_at": "2025-08-20T05:50:10.305Z",
+      "updated_at": "2025-08-20T05:50:10.305Z",
+      "access_count": 0,
+      "rating": 0,
+      "compatibility": {}
+    },
+    {
+      "id": "20590e6da4bd3b0bc6def7c63da318e7",
+      "original_name": "glm45-截屏手机坐标.html",
+      "scene": "开发影刀手机自动化任务，需要从截图中获取每个点的坐标",
+      "prompt": "我有一个手机截图，想要通过一个html来实时了解到鼠标所放置的位置的坐标点是多少，帮我写一个html实现。",
+      "models": [
+        {
+          "name": "GLM",
+          "version": "1.0.0",
+          "performance": {
+            "accuracy": 85,
+            "efficiency": 85,
+            "creativity": 85
+          }
+        }
+      ],
+      "tags": [
+        "自动化"
+      ],
+      "category": "未分类",
+      "description": "",
+      "file_size": 8223,
+      "created_at": "2025-08-20T06:10:07.550Z",
+      "updated_at": "2025-08-20T07:22:50.911Z",
+      "access_count": 1,
+      "rating": 0,
+      "compatibility": {}
+    },
+    {
+      "id": "2c15a78a50af38846bd72537b65d4630",
+      "original_name": "kimik2-截屏手机坐标.html",
+      "scene": "开发影刀手机自动化任务，需要从截图中获取每个点的坐标",
+      "prompt": "我有一个手机截图，想要通过一个html来实时了解到鼠标所放置的位置的坐标点是多少，帮我写一个html实现。",
+      "models": [
+        {
+          "name": "kimi-k2",
+          "version": "1.0.0",
+          "performance": {
+            "accuracy": 85,
+            "efficiency": 85,
+            "creativity": 85
+          }
+        }
+      ],
+      "tags": [
+        "自动化"
+      ],
+      "category": "未分类",
+      "description": "",
+      "file_size": 7805,
+      "created_at": "2025-08-20T06:10:08.057Z",
+      "updated_at": "2025-08-20T07:24:53.925Z",
+      "access_count": 0,
+      "rating": 0,
+      "compatibility": {}
+    },
+    {
+      "id": "765ae18e17384ef7f3012f7655f48831",
+      "original_name": "Qwen3coder-截屏手机坐标.html",
+      "scene": "开发影刀手机自动化任务，需要从截图中获取每个点的坐标",
+      "prompt": "我有一个手机截图，想要通过一个html来实时了解到鼠标所放置的位置的坐标点是多少，帮我写一个html实现。",
+      "models": [
+        {
+          "name": "Qwen",
+          "version": "1.0.0",
+          "performance": {
+            "accuracy": 85,
+            "efficiency": 85,
+            "creativity": 85
+          }
+        }
+      ],
+      "tags": [
+        "自动化"
+      ],
+      "category": "未分类",
+      "description": "",
+      "file_size": 11711,
+      "created_at": "2025-08-20T06:10:08.572Z",
+      "updated_at": "2025-08-20T07:23:13.158Z",
+      "access_count": 0,
+      "rating": 0,
+      "compatibility": {}
+    }
+  ],
+  "statistics": {
+    "total_files": 5,
+    "categories": {
+      "示例文件": 1,
+      "网页应用": 1,
+      "未分类": 3
+    },
+    "tags": {
+      "示例": 1,
+      "演示": 1,
+      "功能测试": 1,
+      "教程": 1,
+      "自动化": 3
+    },
+    "models": {
+      "Human Developer": 2,
+      "AI Assistant": 1,
+      "GLM": 1,
+      "kimi-k2": 1,
+      "Qwen": 1
+    }
+  },
+  "settings": {
+    "auto_encrypt": true,
+    "backup_enabled": true,
+    "max_file_size": 10485760,
+    "allowed_extensions": [
+      ".html",
+      ".htm"
+    ],
+    "encryption_length": 32
+  }
+}

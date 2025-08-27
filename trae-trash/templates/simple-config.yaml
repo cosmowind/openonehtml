@@ -1,0 +1,63 @@
+# OpenOneHTML 简化配置模板
+# 只需要填写三个核心分类：背景需求、提示词、开发模型
+
+# === 背景需求 ===
+# 从以下预设中选择或自定义
+background_requirements:
+  preset: "网页应用开发"  # 预设选项：网页应用开发、移动端界面、数据可视化、交互原型、教学演示
+  custom: ""  # 如果预设不满足，可以在这里自定义
+
+# === 提示词 ===
+# 从以下预设中选择或自定义
+prompt:
+  preset: "创建一个响应式网页应用"  # 预设选项见下方
+  custom: ""  # 自定义提示词
+
+# === 开发模型 ===
+# 可以选择多个模型
+development_models:
+  - name: "Human Developer"
+    version: "1.0.0"
+    performance:
+      accuracy: 95
+      efficiency: 90
+      creativity: 85
+  - name: "AI Assistant"
+    version: "1.0.0"
+    performance:
+      accuracy: 85
+      efficiency: 95
+      creativity: 90
+
+# === 可选信息 ===
+# 这些信息会自动生成，可以不填写
+optional_info:
+  title: ""  # 留空则使用文件名
+  tags: []  # 标签，会根据背景需求自动生成
+  category: ""  # 分类，会根据背景需求自动设置
+  description: ""  # 描述，会根据提示词自动生成
+
+# === 预设选项参考 ===
+# 背景需求预设：
+# - 网页应用开发
+# - 移动端界面
+# - 数据可视化
+# - 交互原型
+# - 教学演示
+
+# 提示词预设：
+# - 创建一个响应式网页应用
+# - 设计一个移动端友好的界面
+# - 开发一个数据可视化仪表板
+# - 制作一个交互式原型
+# - 创建一个教学演示页面
+# - 构建一个单页应用(SPA)
+# - 设计一个电商网站界面
+# - 开发一个社交媒体组件
+
+# 开发模型预设：
+# - Human Developer (人类开发者)
+# - AI Assistant (AI助手)
+# - Code Generator (代码生成器)
+# - UI Designer (UI设计师)
+# - Frontend Expert (前端专家)

@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>测试文件 - 简化配置系统演示</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #333;
+        }
+        
+        .container {
+            background: white;
+            border-radius: 15px;
+            padding: 40px;
+            max-width: 600px;
+            width: 90%;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            text-align: center;
+        }
+        
+        h1 {
+            color: #667eea;
+            margin-bottom: 20px;
+            font-size: 2rem;
+        }
+        
+        p {\            margin-bottom: 20px;
+            line-height: 1.6;
+            color: #666;
+        }
+        
+        .features {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+            text-align: left;
+        }
+        
+        .features h3 {
+            color: #667eea;
+            margin-bottom: 15px;
+        }
+        
+        .features ul {
+            list-style: none;
+        }
+        
+        .features li {
+            padding: 5px 0;
+            border-bottom: 1px solid #e9ecef;
+        }
+        
+        .features li:last-child {
+            border-bottom: none;
+        }
+        
+        .btn {
+            background: #667eea;
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background 0.3s;
+        }
+        
+        .btn:hover {
+            background: #5a6fd8;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+            }
+            
+            h1 {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎉 简化配置系统测试成功</h1>
+        <p>这个HTML文件是通过OpenOneHTML的简化配置系统创建的测试文件。</p>
+        
+        <div class="features">
+            <h3>✨ 功能特点</h3>
+            <ul>
+                <li>📱 响应式设计 - 适配各种设备</li>
+                <li>🎨 现代化UI - 美观的界面设计</li>
+                <li>⚡ 交互功能 - 流畅的用户体验</li>
+                <li>🔧 简化配置 - 只需三个核心分类</li>
+            </ul>
+        </div>
+        
+        <p>这个演示文件展示了如何使用简化配置系统快速创建HTML文件及其配置信息。</p>
+        
+        <button class="btn" onclick="alert('简化配置系统测试成功！')">测试交互功能</button>
+    </div>
+</body>
+</html>

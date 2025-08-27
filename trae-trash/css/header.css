@@ -1,0 +1,213 @@
+/* 头部组件样式 - Header Component Styles */
+
+.header {
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    border-radius: 15px;
+    padding: 20px 30px;
+    margin-bottom: 30px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+    border: 1px solid rgba(255,255,255,0.2);
+}
+
+.header-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+/* Logo样式 */
+.header-logo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: #333;
+}
+
+.header-logo i {
+    font-size: 2rem;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.header-logo span {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+/* 头部按钮组 */
+.header-actions {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+}
+
+.refresh-btn {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: all 0.3s;
+    font-weight: 500;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: #667eea;
+    color: white;
+}
+
+.refresh-btn:hover {
+    background: #5a6fd8;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+.settings-btn {
+    width: 48px;
+    height: 48px;
+    border: none;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    cursor: pointer;
+    transition: all 0.3s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.settings-btn:hover {
+    transform: translateY(-3px) rotate(15deg);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+}
+
+.settings-btn i {
+    font-size: 1.5rem;
+}
+
+.header-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+.header-btn:active {
+    transform: translateY(0);
+}
+
+.header-btn-primary {
+    background: #667eea;
+    color: white;
+}
+
+.header-btn-primary:hover {
+    background: #5a6fd8;
+}
+
+.header-btn-secondary {
+    background: transparent;
+    border: 2px solid #667eea;
+    color: #667eea;
+}
+
+.header-btn-secondary:hover {
+    background: #667eea;
+    color: white;
+}
+
+/* 头部信息显示 */
+.header-info {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    color: #6c757d;
+    font-size: 0.9rem;
+}
+
+.header-info-item {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.header-info-icon {
+    width: 16px;
+    height: 16px;
+    opacity: 0.7;
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+    .header {
+        padding: 15px 20px;
+        margin-bottom: 20px;
+    }
+    
+    .header-container {
+        flex-direction: column;
+        align-items: center;
+        gap: 15px;
+    }
+    
+    .header-logo {
+        font-size: 1.5rem;
+    }
+    
+    .header-logo i {
+        font-size: 1.8rem;
+    }
+    
+    .header-actions {
+        gap: 12px;
+    }
+    
+    .settings-btn {
+        width: 44px;
+        height: 44px;
+    }
+    
+    .settings-btn i {
+        font-size: 1.3rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .header {
+        padding: 10px 15px;
+    }
+    
+    .header-logo {
+        font-size: 1.3rem;
+    }
+    
+    .header-logo i {
+        font-size: 1.6rem;
+    }
+    
+    .header-actions {
+        gap: 10px;
+    }
+    
+    .refresh-btn {
+        padding: 8px 16px;
+        font-size: 0.8rem;
+    }
+    
+    .settings-btn {
+        width: 40px;
+        height: 40px;
+    }
+    
+    .settings-btn i {
+        font-size: 1.2rem;
+    }
+}

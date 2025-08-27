@@ -1,0 +1,432 @@
+/* 模态框组件样式 - Modal Component Styles */
+
+/* 基础模态框样式在 global.css 中定义，这里定义特定模态框的样式 */
+
+/* 编辑文件模态框 */
+.modal-edit-file .modal-content {
+    max-width: 700px;
+}
+
+.edit-file-form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.edit-file-section {
+    background: #f8f9fa;
+    border-radius: 8px;
+    padding: 20px;
+    border: 1px solid #e1e5e9;
+}
+
+.edit-file-section-title {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #333;
+    margin: 0 0 15px 0;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.edit-file-section-icon {
+    width: 20px;
+    height: 20px;
+    opacity: 0.7;
+}
+
+.edit-file-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 15px;
+}
+
+.edit-file-textarea {
+    min-height: 100px;
+    resize: vertical;
+    font-family: inherit;
+}
+
+/* 标签和模型选择器 */
+.edit-file-tags-container,
+.edit-file-models-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 8px;
+    min-height: 40px;
+    padding: 8px;
+    border: 2px solid #e1e5e9;
+    border-radius: 8px;
+    background: white;
+    transition: border-color 0.3s;
+}
+
+.edit-file-tags-container:focus-within,
+.edit-file-models-container:focus-within {
+    border-color: #667eea;
+    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+.edit-file-tag-item,
+.edit-file-model-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 12px;
+    background: #667eea;
+    color: white;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 500;
+}
+
+.edit-file-tag-remove,
+.edit-file-model-remove {
+    background: none;
+    border: none;
+    color: white;
+    cursor: pointer;
+    font-size: 0.9rem;
+    padding: 2px;
+    border-radius: 50%;
+    transition: background 0.3s;
+}
+
+.edit-file-tag-remove:hover,
+.edit-file-model-remove:hover {
+    background: rgba(255,255,255,0.2);
+}
+
+.edit-file-add-input {
+    border: none;
+    background: transparent;
+    outline: none;
+    flex: 1;
+    min-width: 100px;
+    font-size: 0.9rem;
+    padding: 4px;
+}
+
+/* 删除确认模态框 */
+.modal-delete-confirm .modal-content {
+    max-width: 500px;
+}
+
+.delete-confirm-content {
+    text-align: center;
+    padding: 20px 0;
+}
+
+.delete-confirm-icon {
+    width: 64px;
+    height: 64px;
+    margin: 0 auto 20px;
+    color: #dc3545;
+}
+
+.delete-confirm-title {
+    font-size: 1.3rem;
+    font-weight: 600;
+    color: #333;
+    margin: 0 0 10px 0;
+}
+
+.delete-confirm-text {
+    font-size: 1rem;
+    color: #6c757d;
+    margin: 0 0 20px 0;
+    line-height: 1.6;
+}
+
+.delete-confirm-file-info {
+    background: #f8f9fa;
+    border-radius: 8px;
+    padding: 15px;
+    margin: 20px 0;
+    text-align: left;
+}
+
+.delete-confirm-file-name {
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 5px;
+}
+
+.delete-confirm-file-details {
+    font-size: 0.9rem;
+    color: #6c757d;
+}
+
+/* 标签管理模态框 */
+.modal-manage-tags .modal-content,
+.modal-manage-models .modal-content {
+    max-width: 800px;
+}
+
+.manage-tabs {
+    display: flex;
+    border-bottom: 2px solid #e1e5e9;
+    margin-bottom: 20px;
+}
+
+.manage-tab {
+    padding: 12px 24px;
+    background: none;
+    border: none;
+    border-bottom: 2px solid transparent;
+    color: #6c757d;
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: 500;
+    transition: all 0.3s;
+    margin-bottom: -2px;
+}
+
+.manage-tab:hover {
+    color: #667eea;
+    background: rgba(102, 126, 234, 0.05);
+}
+
+.manage-tab.active {
+    color: #667eea;
+    border-bottom-color: #667eea;
+    background: rgba(102, 126, 234, 0.05);
+}
+
+.manage-tab-content {
+    display: none;
+}
+
+.manage-tab-content.active {
+    display: block;
+}
+
+/* 标签列表 */
+.manage-tags-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 12px;
+    margin-bottom: 20px;
+}
+
+.manage-tag-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 16px;
+    background: #f8f9fa;
+    border: 1px solid #e1e5e9;
+    border-radius: 8px;
+    transition: all 0.3s;
+}
+
+.manage-tag-item:hover {
+    background: #e9ecef;
+    border-color: #667eea;
+}
+
+.manage-tag-name {
+    font-weight: 500;
+    color: #333;
+    flex: 1;
+}
+
+.manage-tag-count {
+    font-size: 0.8rem;
+    color: #6c757d;
+    background: white;
+    padding: 2px 8px;
+    border-radius: 12px;
+    margin-right: 10px;
+}
+
+.manage-tag-actions {
+    display: flex;
+    gap: 5px;
+}
+
+.manage-tag-btn {
+    width: 28px;
+    height: 28px;
+    border: none;
+    border-radius: 4px;
+    background: transparent;
+    color: #6c757d;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s;
+    font-size: 0.8rem;
+}
+
+.manage-tag-btn:hover {
+    background: #667eea;
+    color: white;
+}
+
+.manage-tag-btn.delete:hover {
+    background: #dc3545;
+}
+
+/* 添加标签表单 */
+.manage-add-form {
+    display: flex;
+    gap: 10px;
+    align-items: flex-end;
+    padding: 15px;
+    background: #f8f9fa;
+    border-radius: 8px;
+    border: 1px solid #e1e5e9;
+}
+
+.manage-add-group {
+    flex: 1;
+}
+
+.manage-add-label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: 500;
+    color: #333;
+    font-size: 0.9rem;
+}
+
+.manage-add-input {
+    width: 100%;
+    padding: 8px 12px;
+    border: 1px solid #e1e5e9;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    transition: border-color 0.3s;
+}
+
+.manage-add-input:focus {
+    outline: none;
+    border-color: #667eea;
+    box-shadow: 0 0 0 2px rgba(102, 126, 234, 0.1);
+}
+
+/* 统计信息 */
+.manage-stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.manage-stat-card {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 15px;
+    border-radius: 8px;
+    text-align: center;
+}
+
+.manage-stat-number {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin: 0 0 5px 0;
+}
+
+.manage-stat-label {
+    font-size: 0.8rem;
+    opacity: 0.9;
+    margin: 0;
+}
+
+/* 文件查看模态框 */
+.modal-view-file .modal-content {
+    max-width: 900px;
+    max-height: 90vh;
+}
+
+.view-file-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #e1e5e9;
+}
+
+.view-file-title {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: #333;
+    margin: 0;
+}
+
+.view-file-actions {
+    display: flex;
+    gap: 10px;
+}
+
+.view-file-content {
+    max-height: 60vh;
+    overflow-y: auto;
+    padding: 20px;
+    background: #f8f9fa;
+    border-radius: 8px;
+    border: 1px solid #e1e5e9;
+    font-family: 'Courier New', monospace;
+    font-size: 0.9rem;
+    line-height: 1.5;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+    .edit-file-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .manage-tags-list {
+        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    }
+    
+    .manage-add-form {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    
+    .view-file-content {
+        padding: 15px;
+        font-size: 0.8rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .modal-content {
+        margin: 10% auto;
+        width: 95%;
+    }
+    
+    .manage-tags-list {
+        grid-template-columns: 1fr;
+    }
+    
+    .manage-tab {
+        padding: 10px 16px;
+        font-size: 0.9rem;
+    }
+    
+    .view-file-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+    
+    .view-file-actions {
+        width: 100%;
+        justify-content: stretch;
+    }
+    
+    .view-file-actions .btn {
+        flex: 1;
+        justify-content: center;
+    }
+}

@@ -1,0 +1,136 @@
+{
+  "schema_version": "1.0",
+  "description": "OpenOneHTML项目数据库结构定义",
+  "tables": {
+    "html_files": {
+      "fields": {
+        "id": {
+          "type": "string",
+          "description": "唯一标识符（加密后的文件名）",
+          "required": true
+        },
+        "original_name": {
+          "type": "string",
+          "description": "原始文件名",
+          "required": true
+        },
+        "scene": {
+          "type": "string",
+          "description": "应用场景",
+          "required": true
+        },
+        "prompt": {
+          "type": "string",
+          "description": "使用的提示词",
+          "required": true
+        },
+        "models": {
+          "type": "array",
+          "description": "使用的代码模型列表",
+          "items": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string",
+                "description": "模型名称"
+              },
+              "version": {
+                "type": "string",
+                "description": "模型版本"
+              },
+              "performance": {
+                "type": "object",
+                "description": "模型表现评分",
+                "properties": {
+                  "accuracy": {
+                    "type": "number",
+                    "description": "准确性评分 (0-100)"
+                  },
+                  "efficiency": {
+                    "type": "number",
+                    "description": "效率评分 (0-100)"
+                  },
+                  "creativity": {
+                    "type": "number",
+                    "description": "创意性评分 (0-100)"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags": {
+          "type": "array",
+          "description": "标签列表",
+          "items": {
+            "type": "string"
+          }
+        },
+        "category": {
+          "type": "string",
+          "description": "分类"
+        },
+        "description": {
+          "type": "string",
+          "description": "详细描述"
+        },
+        "file_size": {
+          "type": "number",
+          "description": "文件大小（字节）"
+        },
+        "created_at": {
+          "type": "string",
+          "description": "创建时间 (ISO 8601格式)"
+        },
+        "updated_at": {
+          "type": "string",
+          "description": "更新时间 (ISO 8601格式)"
+        },
+        "access_count": {
+          "type": "number",
+          "description": "访问次数",
+          "default": 0
+        },
+        "rating": {
+          "type": "number",
+          "description": "用户评分 (0-5)",
+          "default": 0
+        },
+        "compatibility": {
+          "type": "object",
+          "description": "兼容性信息",
+          "properties": {
+            "browsers": {
+              "type": "array",
+              "description": "支持的浏览器列表"
+            },
+            "devices": {
+              "type": "array",
+              "description": "支持的设备类型"
+            }
+          }
+        }
+      }
+    }
+  },
+  "indexes": {
+    "by_id": {
+      "table": "html_files",
+      "field": "id",
+      "unique": true
+    },
+    "by_scene": {
+      "table": "html_files",
+      "field": "scene"
+    },
+    "by_category": {
+      "table": "html_files",
+      "field": "category"
+    },
+    "by_tags": {
+      "table": "html_files",
+      "field": "tags",
+      "type": "multikey"
+    }
+  }
+}

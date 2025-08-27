@@ -1,0 +1,155 @@
+/* 主样式文件 - Main Stylesheet
+ * 引入所有模块化的CSS文件
+ */
+
+/* 基础样式 */
+@import 'global.css';
+
+/* 头部组件样式 */
+@import 'header.css';
+
+/* 统计面板样式 */
+@import 'stats-panel.css';
+
+/* 搜索面板样式 */
+@import 'search-panel.css';
+
+/* 文件列表样式 */
+@import 'file-list.css';
+
+/* 模态框样式 */
+@import 'modal.css';
+
+/* 主题变量 */
+:root {
+    /* 主色调 */
+    --primary-color: #667eea;
+    --primary-dark: #5a6fd8;
+    --secondary-color: #764ba2;
+    
+    /* 状态颜色 */
+    --success-color: #28a745;
+    --warning-color: #ffc107;
+    --danger-color: #dc3545;
+    --info-color: #17a2b8;
+    
+    /* 中性颜色 */
+    --light-color: #f8f9fa;
+    --dark-color: #333;
+    --gray-color: #6c757d;
+    --border-color: #e1e5e9;
+    
+    /* 间距 */
+    --spacing-xs: 4px;
+    --spacing-sm: 8px;
+    --spacing-md: 16px;
+    --spacing-lg: 24px;
+    --spacing-xl: 32px;
+    
+    /* 圆角 */
+    --border-radius-sm: 4px;
+    --border-radius-md: 8px;
+    --border-radius-lg: 12px;
+    --border-radius-xl: 15px;
+    
+    /* 阴影 */
+    --box-shadow-sm: 0 2px 4px rgba(0,0,0,0.1);
+    --box-shadow-md: 0 4px 12px rgba(0,0,0,0.1);
+    --box-shadow-lg: 0 8px 32px rgba(0,0,0,0.1);
+    
+    /* 过渡 */
+    --transition-fast: 0.2s;
+    --transition-normal: 0.3s;
+    --transition-slow: 0.5s;
+}
+
+/* 暗色主题支持 */
+@media (prefers-color-scheme: dark) {
+    :root {
+        --light-color: #2d3748;
+        --dark-color: #f7fafc;
+        --gray-color: #a0aec0;
+        --border-color: #4a5568;
+    }
+    
+    body {
+        background: linear-gradient(135deg, #2d3748 0%, #1a202c 100%);
+        color: var(--dark-color);
+    }
+    
+    .header,
+    .stats-panel,
+    .search-panel,
+    .file-list {
+        background: rgba(45, 55, 72, 0.95);
+        border-color: rgba(74, 85, 104, 0.5);
+    }
+    
+    .file-card {
+        background: rgba(45, 55, 72, 0.8);
+        border-color: var(--border-color);
+    }
+    
+    .form-control {
+        background: rgba(45, 55, 72, 0.8);
+        border-color: var(--border-color);
+        color: var(--dark-color);
+    }
+    
+    .form-control:focus {
+        border-color: var(--primary-color);
+        box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.2);
+    }
+}
+
+/* 打印样式 */
+@media print {
+    body {
+        background: white;
+        color: black;
+    }
+    
+    .header,
+    .stats-panel,
+    .search-panel,
+    .file-list {
+        background: white;
+        box-shadow: none;
+        border: 1px solid #ccc;
+    }
+    
+    .btn,
+    .file-card-actions,
+    .modal {
+        display: none !important;
+    }
+    
+    .file-card {
+        break-inside: avoid;
+        border: 1px solid #ccc;
+    }
+}
+
+/* 高对比度支持 */
+@media (prefers-contrast: high) {
+    :root {
+        --primary-color: #0066cc;
+        --secondary-color: #004499;
+        --border-color: #000;
+    }
+    
+    .btn,
+    .form-control,
+    .file-card {
+        border-width: 2px;
+    }
+}
+
+/* 减少动画支持 */
+@media (prefers-reduced-motion: reduce) {
+    * {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}

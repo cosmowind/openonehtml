@@ -1,0 +1,249 @@
+<!DOCTYPE html><html lang="zh-CN"><head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>手机截图坐标查看器</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            background-color: #1a1a1a;
+            color: #ffffff;
+            font-family: 'Courier New', monospace;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        h1 {
+            text-align: center;
+            color: #00ff88;
+            margin-bottom: 20px;
+        }
+        
+        .upload-area {
+            border: 2px dashed #555;
+            border-radius: 10px;
+            padding: 40px;
+            text-align: center;
+            margin-bottom: 20px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .upload-area:hover {
+            border-color: #00ff88;
+            background-color: #2a2a2a;
+        }
+        
+        .upload-area.dragover {
+            border-color: #00ff88;
+            background-color: #2a2a2a;
+        }
+        
+        #fileInput {
+            display: none;
+        }
+        
+        .image-container {
+            position: relative;
+            display: inline-block;
+            margin: 20px auto;
+            border: 2px solid #333;
+            cursor: crosshair;
+            max-width: 100%;
+            overflow: auto;
+        }
+        
+        #screenshot {
+            display: block;
+            max-width: 100%;
+            height: auto;
+        }
+        
+        .crosshair {
+            position: absolute;
+            pointer-events: none;
+            z-index: 10;
+        }
+        
+        .crosshair-line {
+            position: absolute;
+            background-color: #00ff88;
+            opacity: 0.5;
+        }
+        
+        .crosshair-horizontal {
+            width: 100%;
+            height: 1px;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+        
+        .crosshair-vertical {
+            height: 100%;
+            width: 1px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        
+        .coordinates {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background-color: rgba(0, 0, 0, 0.8);
+            color: #00ff88;
+            padding: 15px 20px;
+            border-radius: 10px;
+            border: 1px solid #00ff88;
+            font-size: 16px;
+            z-index: 1000;
+            min-width: 200px;
+        }
+        
+        .coordinates label {
+            display: block;
+            margin-bottom: 5px;
+            color: #ccc;
+        }
+        
+        .coordinates span {
+            font-weight: bold;
+            font-size: 20px;
+        }
+        
+        .instructions {
+            text-align: center;
+            color: #888;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>📱 手机截图坐标查看器</h1>
+        
+        <div class="upload-area" onclick="document.getElementById('fileInput').click()">
+            <p>📁 拖拽图片到这里，或点击选择文件</p>
+            <p style="font-size: 14px; color: #666;">支持 JPG、PNG、WEBP 格式</p>
+        </div>
+        
+        <input type="file" id="fileInput" accept="image/*">
+        
+        <div style="text-align: center;">
+            <div class="image-container" id="imageContainer" style="display: none;">
+                <img id="screenshot" alt="手机截图">
+                <div class="crosshair" id="crosshair" style="display: none;">
+                    <div class="crosshair-line crosshair-horizontal"></div>
+                    <div class="crosshair-line crosshair-vertical"></div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="coordinates" id="coordinates" style="display: none;">
+            <label>X 坐标:</label>
+            <span id="xCoord">0</span>
+            <br>
+            <label>Y 坐标:</label>
+            <span id="yCoord">0</span>
+        </div>
+        
+        <div class="instructions">
+            <p>上传图片后，将鼠标悬停在图片上即可查看实时坐标</p>
+        </div>
+    </div>
+
+    <script>
+        const fileInput = document.getElementById('fileInput');
+        const screenshot = document.getElementById('screenshot');
+        const imageContainer = document.getElementById('imageContainer');
+        const coordinates = document.getElementById('coordinates');
+        const xCoord = document.getElementById('xCoord');
+        const yCoord = document.getElementById('yCoord');
+        const crosshair = document.getElementById('crosshair');
+        const uploadArea = document.querySelector('.upload-area');
+
+        // 文件选择事件
+        fileInput.addEventListener('change', handleFileSelect);
+
+        // 拖拽事件
+        uploadArea.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            uploadArea.classList.add('dragover');
+        });
+
+        uploadArea.addEventListener('dragleave', () => {
+            uploadArea.classList.remove('dragover');
+        });
+
+        uploadArea.addEventListener('drop', (e) => {
+            e.preventDefault();
+            uploadArea.classList.remove('dragover');
+            
+            const files = e.dataTransfer.files;
+            if (files.length > 0) {
+                handleFile(files[0]);
+            }
+        });
+
+        function handleFileSelect(e) {
+            const file = e.target.files[0];
+            if (file) {
+                handleFile(file);
+            }
+        }
+
+        function handleFile(file) {
+            if (!file.type.startsWith('image/')) {
+                alert('请选择图片文件！');
+                return;
+            }
+
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                screenshot.src = e.target.result;
+                screenshot.onload = function() {
+                    imageContainer.style.display = 'inline-block';
+                    coordinates.style.display = 'block';
+                    
+                    // 显示图片尺寸信息
+                    console.log(`图片尺寸: ${screenshot.naturalWidth} x ${screenshot.naturalHeight}`);
+                };
+            };
+            reader.readAsDataURL(file);
+        }
+
+        // 鼠标移动事件
+        imageContainer.addEventListener('mousemove', (e) => {
+            const rect = imageContainer.getBoundingClientRect();
+            const scaleX = screenshot.naturalWidth / screenshot.width;
+            const scaleY = screenshot.naturalHeight / screenshot.height;
+            
+            const x = Math.round((e.clientX - rect.left) * scaleX);
+            const y = Math.round((e.clientY - rect.top) * scaleY);
+            
+            xCoord.textContent = Math.max(0, Math.min(x, screenshot.naturalWidth));
+            yCoord.textContent = Math.max(0, Math.min(y, screenshot.naturalHeight));
+            
+            // 更新十字线位置
+            crosshair.style.display = 'block';
+            crosshair.style.left = (e.clientX - rect.left) + 'px';
+            crosshair.style.top = (e.clientY - rect.top) + 'px';
+            crosshair.style.width = '20px';
+            crosshair.style.height = '20px';
+            crosshair.style.transform = 'translate(-50%, -50%)';
+        });
+
+        // 鼠标离开图片时隐藏十字线
+        imageContainer.addEventListener('mouseleave', () => {
+            crosshair.style.display = 'none';
+        });
+
+        // 防止右键菜单
+        screenshot.addEventListener('contextmenu', (e) => {
+            e.preventDefault();
+        });
+    </script>
+
+</body></html>

@@ -1,0 +1,43 @@
+{
+  "original_name": "测试文件.html",
+  "scene": "网页应用开发",
+  "prompt": "创建一个响应式网页应用，包含现代化的UI设计和良好的用户体验",
+  "models": [
+    {
+      "name": "Human Developer",
+      "version": "1.0.0",
+      "performance": {
+        "accuracy": 95,
+        "efficiency": 90,
+        "creativity": 85
+      }
+    },
+    {
+      "name": "AI Assistant",
+      "version": "1.0.0",
+      "performance": {
+        "accuracy": 85,
+        "efficiency": 95,
+        "creativity": 90
+      }
+    }
+  ],
+  "tags": [],
+  "category": "网页应用",
+  "description": "用于创建功能完整的网页应用程序",
+  "features": [
+    "响应式设计",
+    "用户界面",
+    "交互功能",
+    "响应式布局"
+  ],
+  "complexity": "中等",
+  "estimated_time": "30分钟",
+  "created_date": "2025-08-20",
+  "last_modified": "2025-08-20",
+  "author": "OpenOneHTML User",
+  "license": "MIT",
+  "access_count": 0,
+  "rating": 0,
+  "comments": []
+}
