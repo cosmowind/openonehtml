@@ -7,6 +7,13 @@
 </head>
 <body>
     <h1>测试HTML文件链接</h1>
+    <div style="background: #fff3cd; border: 1px solid #ffeaa7; padding: 15px; margin: 20px 0; border-radius: 5px;">
+        <strong>⚠️ 重要提醒：</strong><br>
+        如果链接仍然显示错误，请：<br>
+        1. <strong>强制刷新浏览器</strong>（Ctrl+F5 或 Cmd+Shift+R）<br>
+        2. <strong>清除浏览器缓存</strong><br>
+        3. 等待5-10分钟让GitHub Pages完全更新
+    </div>
     <p>点击下面的链接测试是否能正确访问：</p>
 
     <div style="margin: 20px 0;">
@@ -61,10 +68,13 @@
             console.log('❌ 错误路径（缺少仓库名）:', '/static-pages/html-files/' + fileName);
             console.log('✅ 正确路径（含仓库名）:', '/openonehtml/static-pages/html-files/' + fileName);
 
-            // 模拟components.js中的代码
+            // 模拟components.js中的代码（修复后的版本）
             const testFile = { encryptedName: fileName };
             const generatedLink = `/openonehtml/static-pages/html-files/${testFile.encryptedName}`;
             console.log('components.js生成的链接:', generatedLink);
+
+            // 测试实际的文件访问
+            console.log('=== 文件存在性测试 ===');
 
             // 检查正确的文件路径
             fetch('/openonehtml/static-pages/html-files/' + fileName)
