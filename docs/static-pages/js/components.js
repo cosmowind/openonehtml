@@ -281,7 +281,7 @@ class FileList {
   }
 
   viewFile(file) {
-    window.open(`/static-pages/html-files/${file.encryptedName}`, '_blank');
+    window.open(`/openonehtml/static-pages/html-files/${file.encryptedName}`, '_blank');
   }
 
   editFile(file) {

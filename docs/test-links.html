@@ -10,30 +10,44 @@
     <p>点击下面的链接测试是否能正确访问：</p>
 
     <div style="margin: 20px 0;">
-        <h3>正确的GitHub Pages链接：</h3>
-        <a href="/static-pages/html-files/b92300857e1a36854fdd83e96a3a471c.html" target="_blank">
-            /static-pages/html-files/b92300857e1a36854fdd83e96a3a471c.html
+        <h3>✅ 正确的GitHub Pages链接：</h3>
+        <a href="/openonehtml/static-pages/html-files/b92300857e1a36854fdd83e96a3a471c.html" target="_blank">
+            /openonehtml/static-pages/html-files/b92300857e1a36854fdd83e96a3a471c.html
         </a>
     </div>
 
     <div style="margin: 20px 0;">
-        <h3>错误的链接（之前的问题）：</h3>
+        <h3>❌ 错误的链接（之前的问题）：</h3>
         <a href="/html-files/b92300857e1a36854fdd83e96a3a471c.html" target="_blank">
             /html-files/b92300857e1a36854fdd83e96a3a471c.html
         </a>
     </div>
 
     <div style="margin: 20px 0;">
-        <h3>完整URL测试：</h3>
+        <h3>❌ 错误的完整URL（缺少仓库名）：</h3>
         <a href="https://cosmowind.github.io/static-pages/html-files/b92300857e1a36854fdd83e96a3a471c.html" target="_blank">
             https://cosmowind.github.io/static-pages/html-files/b92300857e1a36854fdd83e96a3a471c.html
         </a>
     </div>
 
     <div style="margin: 20px 0;">
-        <h3>查看应用主页：</h3>
-        <a href="/static-pages/" target="_blank">
-            /static-pages/
+        <h3>✅ 正确的完整URL：</h3>
+        <a href="https://cosmowind.github.io/openonehtml/static-pages/html-files/b92300857e1a36854fdd83e96a3a471c.html" target="_blank">
+            https://cosmowind.github.io/openonehtml/static-pages/html-files/b92300857e1a36854fdd83e96a3a471c.html
+        </a>
+    </div>
+
+    <div style="margin: 20px 0;">
+        <h3>✅ 查看应用主页：</h3>
+        <a href="/openonehtml/static-pages/" target="_blank">
+            /openonehtml/static-pages/
+        </a>
+    </div>
+
+    <div style="margin: 20px 0;">
+        <h3>✅ 查看引导页面：</h3>
+        <a href="/openonehtml/" target="_blank">
+            /openonehtml/
         </a>
     </div>
 
@@ -43,21 +57,22 @@
             const fileName = 'b92300857e1a36854fdd83e96a3a471c.html';
 
             console.log('=== 链接路径验证 ===');
-            console.log('错误路径（旧版）:', '/html-files/' + fileName);
-            console.log('正确路径（新版）:', '/static-pages/html-files/' + fileName);
+            console.log('❌ 错误路径（旧版）:', '/html-files/' + fileName);
+            console.log('❌ 错误路径（缺少仓库名）:', '/static-pages/html-files/' + fileName);
+            console.log('✅ 正确路径（含仓库名）:', '/openonehtml/static-pages/html-files/' + fileName);
 
             // 模拟components.js中的代码
             const testFile = { encryptedName: fileName };
-            const generatedLink = `/static-pages/html-files/${testFile.encryptedName}`;
+            const generatedLink = `/openonehtml/static-pages/html-files/${testFile.encryptedName}`;
             console.log('components.js生成的链接:', generatedLink);
 
-            // 检查文件是否存在
-            fetch('/static-pages/html-files/' + fileName)
+            // 检查正确的文件路径
+            fetch('/openonehtml/static-pages/html-files/' + fileName)
                 .then(response => {
                     if (response.ok) {
-                        console.log('✅ 文件存在:', response.url);
+                        console.log('✅ 正确路径文件存在:', response.url);
                     } else {
-                        console.log('❌ 文件不存在:', response.status);
+                        console.log('❌ 正确路径文件不存在:', response.status);
                     }
                 })
                 .catch(error => {
@@ -75,6 +90,19 @@
                 })
                 .catch(error => {
                     console.log('✅ 错误路径不存在（正常）:', error.message);
+                });
+
+            // 检查缺少仓库名的路径
+            fetch('/static-pages/html-files/' + fileName)
+                .then(response => {
+                    if (response.ok) {
+                        console.log('❌ 缺少仓库名路径竟然存在:', response.url);
+                    } else {
+                        console.log('✅ 缺少仓库名路径不存在（正常）:', response.status);
+                    }
+                })
+                .catch(error => {
+                    console.log('✅ 缺少仓库名路径不存在（正常）:', error.message);
                 });
         });
     </script>
