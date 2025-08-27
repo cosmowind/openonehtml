@@ -1,0 +1,24 @@
+<svg width="600" height="600" xmlns="http://www.w3.org/2000/svg">
+  <!-- 背景 -->
+  <rect width="600" height="600" fill="#f8f9fa"/>
+  
+  <!-- 最外层：认知世界 -->
+  <circle cx="300" cy="300" r="250" fill="#e3f2fd" stroke="#1976d2" stroke-width="3" opacity="0.7"/>
+  <text x="300" y="80" text-anchor="middle" font-family="Arial" font-size="18" font-weight="bold" fill="#1976d2">认知世界</text>
+  <text x="300" y="105" text-anchor="middle" font-family="Arial" font-size="14" fill="#1976d2">个人经历形成的完整世界观</text>
+  
+  <!-- 第二层：认同世界 -->
+  <circle cx="300" cy="300" r="190" fill="#c8e6c9" stroke="#388e3c" stroke-width="3" opacity="0.8"/>
+  <text x="300" y="140" text-anchor="middle" font-family="Arial" font-size="18" font-weight="bold" fill="#2e7d32">认同世界</text>
+  <text x="300" y="165" text-anchor="middle" font-family="Arial" font-size="14" fill="#2e7d32">与他人产生共鸣的交集部分</text>
+  
+  <!-- 第三层：注意力窗口 -->
+  <circle cx="300" cy="300" r="130" fill="#fff3e0" stroke="#f57c00" stroke-width="3" opacity="0.8"/>
+  <text x="300" y="200" text-anchor="middle" font-family="Arial" font-size="18" font-weight="bold" fill="#f57c00">注意力窗口</text>
+  <text x="300" y="225" text-anchor="middle" font-family="Arial" font-size="14" fill="#f57c00">每日24小时接触的信息范围</text>
+  
+  <!-- 最内层：实践半径 -->
+  <circle cx="300" cy="300" r="70" fill="#ffebee" stroke="#d32f2f" stroke-width="3"/>
+  <text x="300" y="295" text-anchor="middle" font-family="Arial" font-size="18" font-weight="bold" fill="#d32f2f">实践半径</text>
+  <text x="300" y="320" text-anchor="middle" font-family="Arial" font-size="14" fill="#d32f2f">真正付诸行动的领域</text>
+</svg>

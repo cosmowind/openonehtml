@@ -1,0 +1,817 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>本地项目上传GitHub指南</title>
+    <style>
+        :root {
+            --primary: #2563eb;
+            --primary-dark: #1d4ed8;
+            --secondary: #f59e0b;
+            --dark: #1f2937;
+            --light: #f3f4f6;
+            --success: #10b981;
+            --danger: #ef4444;
+            --warning: #f59e0b;
+            --info: #3b82f6;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+        }
+        
+        body {
+            overflow: hidden;
+            background-color: #f8fafc;
+        }
+        
+        .container {
+            display: flex;
+            height: 100vh;
+        }
+        
+        /* 导航栏样式 */
+        .nav {
+            width: 250px;
+            background-color: var(--dark);
+            color: white;
+            padding: 20px 0;
+            overflow-y: auto;
+            flex-shrink: 0;
+        }
+        
+        .nav-header {
+            padding: 0 20px 15px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            margin-bottom: 15px;
+        }
+        
+        .nav-title {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: white;
+            margin-bottom: 5px;
+        }
+        
+        .nav-subtitle {
+            font-size: 0.8rem;
+            color: rgba(255,255,255,0.7);
+        }
+        
+        .nav-list {
+            list-style: none;
+        }
+        
+        .nav-item {
+            padding: 12px 20px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+            border-left: 3px solid transparent;
+        }
+        
+        .nav-item:hover {
+            background-color: rgba(255,255,255,0.1);
+            border-left-color: var(--secondary);
+        }
+        
+        .nav-item.active {
+            background-color: rgba(255,255,255,0.05);
+            border-left-color: var(--secondary);
+            font-weight: bold;
+        }
+        
+        .nav-icon {
+            margin-right: 8px;
+            color: var(--secondary);
+            width: 20px;
+            display: inline-block;
+            text-align: center;
+        }
+        
+        /* 幻灯片容器 */
+        .slides-container {
+            flex-grow: 1;
+            overflow: hidden;
+            position: relative;
+            background-color: #f8fafc;
+        }
+        
+        .slide {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+            padding: 40px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .slide.active {
+            opacity: 1;
+            z-index: 1;
+        }
+        
+        .slide-header {
+            margin-bottom: 30px;
+            border-bottom: 2px solid var(--primary);
+            padding-bottom: 15px;
+        }
+        
+        .slide-title {
+            font-size: 2rem;
+            color: var(--primary-dark);
+            margin-bottom: 10px;
+        }
+        
+        .slide-subtitle {
+            font-size: 1.2rem;
+            color: var(--dark);
+            opacity: 0.8;
+        }
+        
+        .slide-content {
+            flex-grow: 1;
+        }
+        
+        /* 代码块样式 */
+        pre {
+            background-color: #1e293b;
+            color: #e2e8f0;
+            padding: 15px;
+            border-radius: 8px;
+            overflow-x: auto;
+            margin: 15px 0;
+            font-family: 'Courier New', Courier, monospace;
+        }
+        
+        code {
+            font-family: 'Courier New', Courier, monospace;
+        }
+        
+        /* 列表样式 */
+        ul, ol {
+            margin-left: 20px;
+            margin-bottom: 15px;
+        }
+        
+        li {
+            margin-bottom: 8px;
+        }
+        
+        /* 表格样式 */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        
+        th, td {
+            border: 1px solid #e5e7eb;
+            padding: 12px 15px;
+            text-align: left;
+        }
+        
+        th {
+            background-color: #f9fafb;
+            font-weight: bold;
+        }
+        
+        tr:nth-child(even) {
+            background-color: #f9fafb;
+        }
+        
+        /* 段落和间距 */
+        p {
+            margin-bottom: 15px;
+            line-height: 1.6;
+        }
+        
+        .mb-2 {
+            margin-bottom: 10px;
+        }
+        
+        .mb-4 {
+            margin-bottom: 20px;
+        }
+        
+        /* 标签和徽章 */
+        .tag {
+            display: inline-block;
+            padding: 3px 8px;
+            border-radius: 4px;
+            margin-right: 5px;
+            font-size: 0.8rem;
+        }
+        
+        .tag-blue {
+            background-color: rgba(59, 130, 246, 0.1);
+            color: var(--info);
+            border: 1px solid rgba(59, 130, 246, 0.2);
+        }
+        
+        .tag-green {
+            background-color: rgba(16, 185, 129, 0.1);
+            color: var(--success);
+            border: 1px solid rgba(16, 185, 129, 0.2);
+        }
+        
+        .tag-red {
+            background-color: rgba(239, 68, 68, 0.1);
+            color: var(--danger);
+            border: 1px solid rgba(239, 68, 68, 0.2);
+        }
+        
+        .tag-yellow {
+            background-color: rgba(245, 158, 11, 0.1);
+            color: var(--warning);
+            border: 1px solid rgba(245, 158, 11, 0.2);
+        }
+        
+        /* 步骤和卡片 */
+        .step {
+            display: flex;
+            margin-bottom: 20px;
+            align-items: flex-start;
+        }
+        
+        .step-number {
+            background-color: var(--primary);
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            margin-right: 15px;
+            flex-shrink: 0;
+        }
+        
+        .step-content {
+            flex-grow: 1;
+        }
+        
+        .card {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            padding: 20px;
+            margin-bottom: 20px;
+            border-left: 4px solid var(--primary);
+        }
+        
+        .card-title {
+            font-size: 1.2rem;
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: var(--dark);
+        }
+        
+        .card-danger {
+            border-left-color: var(--danger);
+        }
+        
+        .card-warning {
+            border-left-color: var(--warning);
+        }
+        
+        .card-success {
+            border-left-color: var(--success);
+        }
+        
+        .card-info {
+            border-left-color: var(--info);
+        }
+        
+        /* 控制按钮 */
+        .controls {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            display: flex;
+            gap: 10px;
+        }
+        
+        .control-btn {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            transition: all 0.2s;
+        }
+        
+        .control-btn:hover {
+            background-color: var(--primary-dark);
+            transform: translateY(-2px);
+        }
+        
+        /* 响应式调整 */
+        @media (max-width: 768px) {
+            .container {
+                flex-direction: column;
+            }
+            
+            .nav {
+                width: 100%;
+                height: auto;
+                max-height: 200px;
+            }
+            
+            .slide {
+                padding: 20px;
+            }
+            
+            .slide-title {
+                font-size: 1.5rem;
+            }
+        }
+
+        .icon-check {
+            color: var(--success);
+        }
+
+        .icon-warning {
+            color: var(--warning);
+        }
+
+        .icon-error {
+            color: var(--danger);
+        }
+
+        .highlight {
+            background-color: #fff8c5;
+            padding: 2px 4px;
+            border-radius: 3px;
+        }
+
+        .note {
+            background-color: rgba(59, 130, 246, 0.1);
+            border-left: 4px solid var(--info);
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- 导航栏 -->
+        <nav class="nav">
+            <div class="nav-header">
+                <div class="nav-title">GitHub 上传指南</div>
+                <div class="nav-subtitle">标准流程与解决方案</div>
+            </div>
+            <ul class="nav-list">
+                <li class="nav-item active" data-slide="0">
+                    <span class="nav-icon">🏠</span>首页
+                </li>
+                <li class="nav-item" data-slide="1">
+                    <span class="nav-icon">✅</span>前置条件
+                </li>
+                <li class="nav-item" data-slide="2">
+                    <span class="nav-icon">🔧</span>标准上传流程
+                </li>
+                <li class="nav-item" data-slide="3">
+                    <span class="nav-icon">🚀</span>首次推送代码
+                </li>
+                <li class="nav-item" data-slide="4">
+                    <span class="nav-icon">🚨</span>常见问题解决
+                </li>
+                <li class="nav-item" data-slide="5">
+                    <span class="nav-icon">🔍</span>关键概念解析
+                </li>
+                <li class="nav-item" data-slide="6">
+                    <span class="nav-icon">📌</span>总结
+                </li>
+                <li class="nav-item" data-slide="7">
+                    <span class="nav-icon">🛠️</span>进阶技巧
+                </li>
+            </ul>
+        </nav>
+
+        <!-- 幻灯片区域 -->
+        <div class="slides-container">
+            <!-- 首页 -->
+            <div class="slide active" id="slide-0">
+                <div class="slide-header">
+                    <h1 class="slide-title">🧭 本地项目上传 GitHub 的标准流程指南</h1>
+                    <p class="slide-subtitle">含常见错误与解决方案</p>
+                </div>
+                <div class="slide-content">
+                    <div class="card">
+                        <div class="card-title">欢迎使用本指南</div>
+                        <p>这份指南将帮助你：</p>
+                        <ul>
+                            <li>从零开始将本地项目上传到GitHub</li>
+                            <li>解决上传过程中遇到的常见问题</li>
+                            <li>理解关键Git概念和命令</li>
+                            <li>掌握完整的工作流程</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="note">
+                        <strong>使用提示：</strong> 点击左侧导航栏可以直接跳转到对应章节。
+                    </div>
+                </div>
+            </div>
+
+            <!-- 前置条件 -->
+            <div class="slide" id="slide-1">
+                <div class="slide-header">
+                    <h1 class="slide-title">✅ 一、前置条件</h1>
+                    <p class="slide-subtitle">在开始之前需要准备的内容</p>
+                </div>
+                <div class="slide-content">
+                    <div class="step">
+                        <div class="step-number">1</div>
+                        <div class="step-content">
+                            <h3 class="mb-2">安装 Git</h3>
+                            <p>在官网下载并安装最新版本的Git</p>
+                            <a href="https://git-scm.com/" target="_blank" style="color: var(--primary); text-decoration: none;">
+                                👉 官网下载 Git
+                            </a>
+                        </div>
+                    </div>
+                    
+                    <div class="step">
+                        <div class="step-number">2</div>
+                        <div class="step-content">
+                            <h3 class="mb-2">配置用户名和邮箱（只需配置一次）</h3>
+                            <pre>git config --global user.name "你的GitHub用户名"
+git config --global user.email "你的GitHub邮箱"</pre>
+                            <p>这一步非常重要，确保你的提交正确关联到你的GitHub账户。</p>
+                        </div>
+                    </div>
+                    
+                    <div class="step">
+                        <div class="step-number">3</div>
+                        <div class="step-content">
+                            <h3 class="mb-2">在 GitHub 上创建一个空仓库</h3>
+                            <p>登录GitHub，点击右上角"+"号，选择"New repository"</p>
+                            <div class="note">
+                                <strong>重要提示：</strong> 不要选择初始化仓库的选项（如README、.gitignore等），保持仓库为空。
+                            </div>
+                            <p>创建后，你将获得一个仓库地址，如：<br>
+                            <code>https://github.com/你的用户名/你的项目名.git</code></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 标准上传流程 -->
+            <div class="slide" id="slide-2">
+                <div class="slide-header">
+                    <h1 class="slide-title">✅ 二、标准上传流程</h1>
+                    <p class="slide-subtitle">从本地初始化到推送</p>
+                </div>
+                <div class="slide-content">
+                    <p>以本地文件夹 <code>change-life-ppt</code> 为例，我们将完成以下步骤：</p>
+                    
+                    <div class="card card-info">
+                        <div class="card-title">🔧 初始化 Git 仓库</div>
+                        <pre>cd F:\sys\desk\change-life-ppt
+git init</pre>
+                        <p>该命令会在当前目录创建一个隐藏的 .git 文件夹，用于跟踪项目变化。</p>
+                    </div>
+                    
+                    <div class="card card-success">
+                        <div class="card-title">📦 添加文件并提交</div>
+                        <pre>git add .
+git commit -m "首次提交：上传演示PPT"</pre>
+                        <p><code>git add .</code> 添加所有文件到暂存区<br>
+                        <code>git commit</code> 将暂存区的文件提交到本地仓库</p>
+                    </div>
+                    
+                    <div class="card card-primary">
+                        <div class="card-title">🔗 连接 GitHub 仓库</div>
+                        <pre>git remote add origin https://github.com/你的用户名/你的项目名.git</pre>
+                        <p><code>origin</code> 是远程仓库的别名，你可以自定义，但通常使用 origin。</p>
+                    </div>
+                    
+                    <div class="card card-warning">
+                        <div class="card-title">🏷️ 将本地分支名改为 main</div>
+                        <pre>git branch -M main</pre>
+                        <p>GitHub 的默认分支是 <code>main</code>，这一步确保本地分支与远程保持一致。</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 首次推送代码 -->
+            <div class="slide" id="slide-3">
+                <div class="slide-header">
+                    <h1 class="slide-title">✅ 三、首次推送代码到 GitHub</h1>
+                    <p class="slide-subtitle">根据远程仓库状态选择合适的方法</p>
+                </div>
+                <div class="slide-content">
+                    <div class="card card-success">
+                        <div class="card-title">如果远程仓库是空的</div>
+                        <pre>git push -u origin main</pre>
+                        <p>选项 <code>-u</code> 会建立本地与远程的跟踪关系，后续可以直接使用 <code>git push</code> 推送。</p>
+                    </div>
+                    
+                    <div class="card card-warning">
+                        <div class="card-title">如果 GitHub 上已经有内容（比如默认 README）</div>
+                        <p>这种情况需要先拉取并合并远程内容：</p>
+                        
+                        <h4 class="mb-2">1. 先拉取远程并合并（允许不同历史）：</h4>
+                        <pre>git pull origin main --allow-unrelated-histories</pre>
+                        
+                        <h4 class="mb-2">2. Git 会自动打开编辑器要求输入合并说明：</h4>
+                        <div class="note">
+                            <strong>如果打开的是 Vim 编辑器：</strong>
+                            <ul>
+                                <li>按 <code>Esc</code> 键进入命令模式</li>
+                                <li>输入 <code>:wq</code> 然后回车（保存并退出）</li>
+                            </ul>
+                        </div>
+                        
+                        <h4 class="mb-2">3. 合并成功后再推送：</h4>
+                        <pre>git push -u origin main</pre>
+                    </div>
+                    
+                    <div class="note">
+                        <strong>提示：</strong> 首次推送完成后，之后的更新只需要执行以下命令：
+                        <pre>git add .
+git commit -m "更新说明"
+git push</pre>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 常见问题解决 -->
+            <div class="slide" id="slide-4">
+                <div class="slide-header">
+                    <h1 class="slide-title">🚨 四、常见问题及解决方法</h1>
+                    <p class="slide-subtitle">遇到问题不要慌，这里有解决方案</p>
+                </div>
+                <div class="slide-content">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>问题场景</th>
+                                <th>错误信息</th>
+                                <th>解决办法</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>🔴 推送时报错</td>
+                                <td><code>src refspec main does not match any</code></td>
+                                <td>执行 <code>git branch -M main</code></td>
+                            </tr>
+                            <tr>
+                                <td>🔴 推送时被拒绝</td>
+                                <td><code>rejected -> main (fetch first)</code></td>
+                                <td><code>git pull origin main --allow-unrelated-histories</code><br>然后 <code>git push</code></td>
+                            </tr>
+                            <tr>
+                                <td>🔴 Git 打开 Vim 编辑器卡住</td>
+                                <td>不懂 Vim 操作</td>
+                                <td>输入 <code>:wq</code> 回车即可保存退出</td>
+                            </tr>
+                            <tr>
+                                <td>🔴 Git 卡在 merge 状态</td>
+                                <td>merge 没有完成</td>
+                                <td>执行 <code>git commit</code>，然后再 <code>git push</code><br>
+                                如果想放弃合并：<code>git merge --abort</code></td>
+                            </tr>
+                            <tr>
+                                <td>🔴 你想强制覆盖远程分支</td>
+                                <td><code>non-fast-forward</code></td>
+                                <td>明确风险后使用：<code>git push -u origin main --force</code></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    
+                    <div class="card card-danger">
+                        <div class="card-title">⚠️ 警告</div>
+                        <p>使用 <code>--force</code> 选项会覆盖远程仓库的内容，可能导致他人的提交丢失。
+                        请确保你了解风险后再使用。</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 关键概念解析 -->
+            <div class="slide" id="slide-5">
+                <div class="slide-header">
+                    <h1 class="slide-title">🔍 关键概念解析</h1>
+                    <p class="slide-subtitle">理解这些概念，帮助你更好地使用Git</p>
+                </div>
+                <div class="slide-content">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>概念/命令</th>
+                                <th>含义</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><code>origin</code></td>
+                                <td>默认的远程仓库别名（一般指 GitHub 上的 URL）</td>
+                            </tr>
+                            <tr>
+                                <td><code>main</code></td>
+                                <td>默认的主分支（旧版 Git 叫 <code>master</code>）</td>
+                            </tr>
+                            <tr>
+                                <td><code>-u</code> / <code>--set-upstream</code></td>
+                                <td>让本地分支和远程分支建立追踪关系</td>
+                            </tr>
+                            <tr>
+                                <td><code>--force</code></td>
+                                <td>强制推送，<strong>会覆盖远程的提交</strong>，需谨慎使用</td>
+                            </tr>
+                            <tr>
+                                <td><code>:wq</code></td>
+                                <td>Vim 中保存并退出的命令（<code>w</code> = write, <code>q</code> = quit）</td>
+                            </tr>
+                            <tr>
+                                <td><code>--allow-unrelated-histories</code></td>
+                                <td>允许合并两个没有共同历史的分支（如你本地初始化的仓库和 GitHub 上自动生成的 README）</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    
+                    <div class="note">
+                        <strong>小知识：</strong> Git是分布式版本控制系统，本地仓库与远程仓库是独立的，需要通过推送（push）和拉取（pull）来同步变更。
+                    </div>
+                </div>
+            </div>
+
+            <!-- 总结 -->
+            <div class="slide" id="slide-6">
+                <div class="slide-header">
+                    <h1 class="slide-title">📌 总结</h1>
+                    <p class="slide-subtitle">一句话流程</p>
+                </div>
+                <div class="slide-content">
+                    <div class="card" style="background-color: #f0f9ff; border-left-color: #3b82f6;">
+                        <p style="font-size: 1.3rem; font-weight: bold; text-align: center; line-height: 1.8;">
+                            先初始化仓库，添加并提交内容，连接 GitHub，设置 main 分支，最后 push；<br>
+                            若 GitHub 不为空，先 pull 合并。
+                        </p>
+                    </div>
+                    
+                    <div style="margin-top: 40px;">
+                        <h3 class="mb-4">完整流程图解</h3>
+                        <div style="display: flex; justify-content: center;">
+                            <!-- 简易流程图 -->
+                            <div style="background-color: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); max-width: 600px;">
+                                <div style="display: flex; flex-direction: column; align-items: center;">
+                                    <div style="padding: 10px 20px; background-color: #f3f4f6; border-radius: 6px; margin-bottom: 15px; text-align: center; width: 80%;">
+                                        <strong>git init</strong>
+                                    </div>
+                                    <div style="text-align: center; margin-bottom: 10px;">⬇️</div>
+                                    <div style="padding: 10px 20px; background-color: #f3f4f6; border-radius: 6px; margin-bottom: 15px; text-align: center; width: 80%;">
+                                        <strong>git add .</strong>
+                                    </div>
+                                    <div style="text-align: center; margin-bottom: 10px;">⬇️</div>
+                                    <div style="padding: 10px 20px; background-color: #f3f4f6; border-radius: 6px; margin-bottom: 15px; text-align: center; width: 80%;">
+                                        <strong>git commit -m "提交说明"</strong>
+                                    </div>
+                                    <div style="text-align: center; margin-bottom: 10px;">⬇️</div>
+                                    <div style="padding: 10px 20px; background-color: #f3f4f6; border-radius: 6px; margin-bottom: 15px; text-align: center; width: 80%;">
+                                        <strong>git remote add origin URL</strong>
+                                    </div>
+                                    <div style="text-align: center; margin-bottom: 10px;">⬇️</div>
+                                    <div style="padding: 10px 20px; background-color: #f3f4f6; border-radius: 6px; margin-bottom: 15px; text-align: center; width: 80%;">
+                                        <strong>git branch -M main</strong>
+                                    </div>
+                                    <div style="text-align: center; margin-bottom: 10px;">⬇️</div>
+                                    <div style="padding: 10px 20px; background-color: #f3f4f6; border-radius: 6px; text-align: center; width: 80%;">
+                                        <strong>git push -u origin main</strong>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 进阶技巧 -->
+            <div class="slide" id="slide-7">
+                <div class="slide-header">
+                    <h1 class="slide-title">🛠 想进一步提升？</h1>
+                    <p class="slide-subtitle">Git进阶技能推荐</p>
+                </div>
+                <div class="slide-content">
+                    <p>掌握了基础上传流程后，你可以了解这些进阶内容：</p>
+                    
+                    <div class="card card-info">
+                        <div class="card-title">.gitignore 文件的作用</div>
+                        <p>用于指定不需要上传到GitHub的文件或文件夹。</p>
+                        <pre># .gitignore 示例
+node_modules/
+.DS_Store
+*.log
+.env</pre>
+                        <p>这样可以避免上传临时文件、敏感信息或大型依赖包。</p>
+                    </div>
+                    
+                    <div class="card">
+                        <div class="card-title">查看历史与改动</div>
+                        <ul>
+                            <li><code>git log</code> - 查看提交历史</li>
+                            <li><code>git diff</code> - 查看文件修改内容</li>
+                            <li><code>git blame 文件名</code> - 查看每行代码的最后修改者</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="card card-success">
+                        <div class="card-title">使用 Git GUI 工具</div>
+                        <p>对于不喜欢命令行的用户，可以尝试这些可视化工具：</p>
+                        <ul>
+                            <li>GitHub Desktop - 官方客户端，简单易用</li>
+                            <li>Sourcetree - 功能强大的免费Git客户端</li>
+                            <li>GitKraken - 现代美观的Git客户端</li>
+                            <li>VS Code的Git集成 - 编辑器内置Git功能</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="card card-warning">
+                        <div class="card-title">自动部署 GitHub Pages</div>
+                        <p>如果你的项目是网页，可以设置GitHub Pages自动部署展示：</p>
+                        <ol>
+                            <li>进入GitHub仓库 → Settings → Pages</li>
+                            <li>选择部署的分支和目录</li>
+                            <li>完成后即可通过 <code>https://用户名.github.io/仓库名</code> 访问</li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 控制按钮 -->
+            <div class="controls">
+                <button class="control-btn" id="prev-btn">◀</button>
+                <button class="control-btn" id="next-btn">▶</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 幻灯片切换功能
+        const slides = document.querySelectorAll('.slide');
+        const navItems = document.querySelectorAll('.nav-item');
+        const prevBtn = document.getElementById('prev-btn');
+        const nextBtn = document.getElementById('next-btn');
+        let currentSlide = 0;
+        
+        function showSlide(index) {
+            // 确保索引在有效范围内
+            if (index < 0) index = 0;
+            if (index >= slides.length) index = slides.length - 1;
+            
+            // 移除所有幻灯片和导航项的活动状态
+            slides.forEach(slide => slide.classList.remove('active'));
+            navItems.forEach(item => item.classList.remove('active'));
+            
+            // 设置当前幻灯片和导航项为活动状态
+            slides[index].classList.add('active');
+            navItems[index].classList.add('active');
+            
+            // 更新当前幻灯片索引
+            currentSlide = index;
+        }
+        
+        // 为导航项添加点击事件
+        navItems.forEach((item, index) => {
+            item.addEventListener('click', () => {
+                showSlide(index);
+            });
+        });
+        
+        // 为控制按钮添加点击事件
+        prevBtn.addEventListener('click', () => {
+            showSlide(currentSlide - 1);
+        });
+        
+        nextBtn.addEventListener('click', () => {
+            showSlide(currentSlide + 1);
+        });
+        
+        // 键盘控制
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowLeft') {
+                showSlide(currentSlide - 1);
+            } else if (e.key === 'ArrowRight') {
+                showSlide(currentSlide + 1);
+            }
+        });
+    </script>
+</body>
+</html>

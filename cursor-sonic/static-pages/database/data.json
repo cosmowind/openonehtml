@@ -1,0 +1,175 @@
+{
+  "version": "1.0.0",
+  "lastUpdate": "2025-08-22T02:06:02.643Z",
+  "files": [
+    {
+      "id": "bb392bcbb709e4a0",
+      "originalName": "glm45-截屏手机坐标.html",
+      "encryptedName": "b92300857e1a36854fdd83e96a3a471c.html",
+      "fileSize": 8225,
+      "uploadTime": "2025-08-21T06:01:56.983Z",
+      "accessCount": 0,
+      "title": "glm45-截屏手机坐标.html",
+      "description": "",
+      "category": "",
+      "background": "手机截图坐标查看器",
+      "prompt": "创建一个能够显示鼠标在图片上点击位置的坐标查看工具",
+      "model": "model_001",
+      "tags": [
+        "tag_001",
+        "tag_002"
+      ],
+      "status": "active"
+    },
+    {
+      "id": "5eaf6414b108aa52",
+      "originalName": "index.html",
+      "encryptedName": "df729ff9d6348ae10804387d3e546aa6.html",
+      "fileSize": 8209,
+      "uploadTime": "2025-08-21T06:01:56.999Z",
+      "accessCount": 0,
+      "title": "index.html",
+      "description": "",
+      "category": "好哇",
+      "background": "手机截图坐标查看器",
+      "prompt": "创建一个能够显示鼠标在图片上点击位置的坐标查看工具",
+      "model": "model_001",
+      "tags": [
+        "tag_001",
+        "tag_002"
+      ],
+      "status": "active"
+    },
+    {
+      "id": "96a37cdc5a5e27d0",
+      "originalName": "kimik2-截屏手机坐标.html",
+      "encryptedName": "36aa6280e0aaf5a31acaa676c76bf68b.html",
+      "fileSize": 8057,
+      "uploadTime": "2025-08-21T06:01:57.016Z",
+      "accessCount": 0,
+      "title": "kimik2-截屏手机坐标.html",
+      "description": "",
+      "category": "",
+      "background": "手机截图坐标查看器",
+      "prompt": "创建一个能够显示鼠标在图片上点击位置的坐标查看工具",
+      "model": "model_002",
+      "tags": [
+        "tag_001",
+        "tag_002"
+      ],
+      "status": "active"
+    },
+    {
+      "id": "d54811e9f153af23",
+      "originalName": "Qwen3coder-截屏手机坐标.html",
+      "encryptedName": "8123ae97fa949f479f0d301f1f4d62ce.html",
+      "fileSize": 11713,
+      "uploadTime": "2025-08-21T06:01:57.030Z",
+      "accessCount": 0,
+      "title": "Qwen3coder-截屏手机坐标.html",
+      "description": "",
+      "category": "",
+      "background": "手机截图坐标查看器",
+      "prompt": "创建一个能够显示鼠标在图片上点击位置的坐标查看工具",
+      "model": "model_003",
+      "tags": [
+        "tag_001",
+        "tag_002"
+      ],
+      "status": "active"
+    }
+  ],
+  "preset_tags": [
+    {
+      "id": "tag_001",
+      "name": "坐标查看器",
+      "color": "#3498db",
+      "description": "用于查看图片坐标的工具",
+      "createTime": "2024-12-25T12:00:00.000Z",
+      "usageCount": 0
+    },
+    {
+      "id": "tag_002",
+      "name": "手机自动化",
+      "color": "#2ed66f",
+      "description": "手机相关工具应用",
+      "createTime": "2024-12-25T12:00:00.000Z",
+      "usageCount": 0
+    },
+    {
+      "id": "tag_003",
+      "name": "图片处理",
+      "color": "#2ecc71",
+      "description": "图片处理和分析工具",
+      "createTime": "2024-12-25T12:00:00.000Z",
+      "usageCount": 0
+    },
+    {
+      "id": "tag_1755826960742",
+      "name": "不好吃",
+      "color": "#3498db",
+      "description": "",
+      "createTime": "2025-08-22T01:42:40.742Z",
+      "usageCount": 0
+    }
+  ],
+  "preset_models": [
+    {
+      "id": "model_001",
+      "name": "GLM4.5",
+      "description": "智谱AI GLM-4 模型",
+      "createTime": "2024-12-25T12:00:00.000Z",
+      "usageCount": 0,
+      "updateTime": "2025-08-22T01:38:34.676Z"
+    },
+    {
+      "id": "model_002",
+      "name": "kimik2",
+      "description": "月之暗面 kimi 模型",
+      "createTime": "2024-12-25T12:00:00.000Z",
+      "usageCount": 0,
+      "updateTime": "2025-08-22T01:38:20.836Z"
+    },
+    {
+      "id": "model_003",
+      "name": "Qwen3coder",
+      "description": "通义千问 Qwen3 模型",
+      "createTime": "2024-12-25T12:00:00.000Z",
+      "usageCount": 0,
+      "updateTime": "2025-08-22T02:06:10.717Z"
+    },
+    {
+      "id": "model_1755826975277",
+      "name": "claude",
+      "description": "",
+      "createTime": "2025-08-22T01:42:55.277Z",
+      "usageCount": 0
+    }
+  ],
+  "settings": {
+    "totalFiles": 4,
+    "totalTags": 4,
+    "totalModels": 4,
+    "totalCategories": 1
+  },
+  "categories": [
+    {
+      "id": "category_1755826676546",
+      "name": "有趣的",
+      "description": "",
+      "createdAt": "2025-08-22T01:37:56.546Z"
+    },
+    {
+      "id": "category_1755826917101",
+      "name": "好哇",
+      "description": "",
+      "createdAt": "2025-08-22T01:41:57.101Z"
+    },
+    {
+      "id": "category_1755826929908",
+      "name": "好玩",
+      "description": "好汉",
+      "createdAt": "2025-08-22T01:42:09.908Z"
+    }
+  ]
+}
