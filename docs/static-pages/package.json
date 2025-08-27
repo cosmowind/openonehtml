@@ -1,0 +1,16 @@
+{
+  "name": "openonehtml-static",
+  "version": "1.0.0",
+  "description": "OpenOneHTML静态版本本地测试服务器",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.18.2"
+  },
+  "keywords": ["html", "static", "server"],
+  "author": "cosmowind",
+  "license": "MIT"
+}
