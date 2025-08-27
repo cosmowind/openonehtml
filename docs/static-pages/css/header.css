@@ -1,0 +1,102 @@
+/* 头部样式 */
+
+.header {
+  background: var(--bg-primary);
+  border-bottom: 1px solid var(--border-color);
+  box-shadow: var(--shadow-sm);
+}
+
+.header-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: var(--spacing-lg) var(--spacing-md);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--spacing-lg);
+}
+
+.header-left {
+  flex: 1;
+}
+
+.site-title {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: var(--primary-color);
+  margin: 0 0 var(--spacing-sm) 0;
+  text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.site-subtitle {
+  font-size: 1.125rem;
+  color: var(--text-secondary);
+  margin: 0 0 0 0;
+  font-weight: 400;
+}
+
+.header-center {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+}
+
+.header-actions {
+  display: flex;
+  gap: var(--spacing-md);
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.header-right {
+  flex: 1;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.btn-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  background: var(--bg-secondary);
+  border: 2px solid var(--border-color);
+  color: var(--text-primary);
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.btn-icon:hover {
+  background: var(--primary-color);
+  border-color: var(--primary-color);
+  color: white;
+  transform: scale(1.1);
+}
+
+@media (max-width: 768px) {
+  .header-content {
+    padding: var(--spacing-md) var(--spacing-sm);
+  }
+
+  .site-title {
+    font-size: 2rem;
+  }
+
+  .site-subtitle {
+    font-size: 1rem;
+  }
+
+  .header-actions {
+    flex-direction: column;
+    gap: var(--spacing-sm);
+  }
+
+  .header-actions .btn {
+    width: 100%;
+    max-width: 200px;
+  }
+}

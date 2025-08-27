@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OpenOneHTML - HTML创意实现管理平台</title>
+    <link rel="stylesheet" href="css/main.css">
+</head>
+<body>
+    <!-- 头部区域 -->
+    <header class="header">
+        <div class="header-content">
+            <div class="header-left">
+                <h1 class="site-title">OpenOneHTML</h1>
+                <p class="site-subtitle">HTML创意实现管理平台</p>
+            </div>
+            <div class="header-center">
+                <div class="header-actions">
+                    <button id="addFileBtn" class="btn btn-primary">添加文件</button>
+                    <button id="batchManageBtn" class="btn btn-secondary">批量管理</button>
+                    <button id="scanDirectoryBtn" class="btn btn-secondary">扫描目录</button>
+                </div>
+            </div>
+            <div class="header-right">
+                <button id="settingsBtn" class="btn btn-icon" title="设置">
+                    ⚙️
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- 统计面板 -->
+    <section class="stats-panel">
+        <div class="stats-container">
+            <div class="stat-card" data-type="files">
+                <div class="stat-emoji">📁</div>
+                <div class="stat-content">
+                    <div class="stat-number" id="totalFiles">0</div>
+                    <div class="stat-label">文件数</div>
+                </div>
+            </div>
+            <div class="stat-card" data-type="categories">
+                <div class="stat-emoji">📂</div>
+                <div class="stat-content">
+                    <div class="stat-number" id="totalCategories">0</div>
+                    <div class="stat-label">分类数</div>
+                </div>
+            </div>
+            <div class="stat-card" data-type="tags">
+                <div class="stat-emoji">🏷️</div>
+                <div class="stat-content">
+                    <div class="stat-number" id="totalTags">0</div>
+                    <div class="stat-label">标签数</div>
+                </div>
+            </div>
+            <div class="stat-card" data-type="models">
+                <div class="stat-emoji">🤖</div>
+                <div class="stat-content">
+                    <div class="stat-number" id="totalModels">0</div>
+                    <div class="stat-label">模型数</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 搜索筛选面板 -->
+    <section class="search-panel">
+        <div class="search-container">
+            <div class="search-row">
+                <div class="search-input-group">
+                    <input type="text" id="searchInput" placeholder="搜索文件...">
+                    <button id="searchBtn" class="btn btn-primary">搜索</button>
+                </div>
+
+                <div class="filters-inline">
+                    <div class="filter-group">
+                        <label>分类:</label>
+                        <select id="categoryFilter">
+                            <option value="">全部</option>
+                        </select>
+                    </div>
+
+                    <div class="filter-group">
+                        <label>标签:</label>
+                        <select id="tagsFilter">
+                            <option value="">选择标签</option>
+                        </select>
+                    </div>
+
+                    <div class="filter-group">
+                        <label>模型:</label>
+                        <select id="modelFilter">
+                            <option value="">选择模型</option>
+                        </select>
+                    </div>
+                </div>
+
+                <button id="clearSearchBtn" class="btn btn-secondary">清除筛选</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- 文件列表 -->
+    <section class="files-section">
+        <div class="files-container">
+            <div id="filesGrid" class="files-grid">
+                <!-- 文件卡片将在这里动态生成 -->
+            </div>
+            <div id="emptyState" class="empty-state">
+                <div class="empty-icon">📁</div>
+                <h3>暂无文件</h3>
+                <p>点击"添加文件"按钮开始上传你的HTML创意实现</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- 设置面板 -->
+    <div id="settingsPanel" class="settings-panel" style="display: none;">
+        
+        <div class="settings-content">
+            <div class="setting-group">
+                <h4>显示字段</h4>
+                <div class="setting-item">
+                    <label><input type="checkbox" data-field="title" checked> 文件标题</label>
+                    <select class="display-format">
+                        <option value="label">独立标签</option>
+                        <option value="inline">文字描述</option>
+                    </select>
+                </div>
+                <div class="setting-item">
+                    <label><input type="checkbox" data-field="category" checked> 分类</label>
+                    <select class="display-format">
+                        <option value="label">独立标签</option>
+                        <option value="inline">文字描述</option>
+                    </select>
+                </div>
+                <div class="setting-item">
+                    <label><input type="checkbox" data-field="tags" checked> 标签</label>
+                    <select class="display-format">
+                        <option value="label">独立标签</option>
+                        <option value="inline">文字描述</option>
+                    </select>
+                </div>
+                <div class="setting-item">
+                    <label><input type="checkbox" data-field="model" checked> 模型</label>
+                    <select class="display-format">
+                        <option value="label">独立标签</option>
+                        <option value="inline">文字描述</option>
+                    </select>
+                </div>
+                <div class="setting-item">
+                    <label><input type="checkbox" data-field="background"> 背景需求</label>
+                    <select class="display-format">
+                        <option value="label">独立标签</option>
+                        <option value="inline">文字描述</option>
+                    </select>
+                </div>
+                <div class="setting-item">
+                    <label><input type="checkbox" data-field="prompt"> 提示词</label>
+                    <select class="display-format">
+                        <option value="label">独立标签</option>
+                        <option value="inline">文字描述</option>
+                    </select>
+                </div>
+                <div class="setting-item">
+                    <label><input type="checkbox" data-field="description" checked> 描述</label>
+                    <select class="display-format">
+                        <option value="label">独立标签</option>
+                        <option value="inline">文字描述</option>
+                    </select>
+                </div>
+                <div class="setting-item">
+                    <label><input type="checkbox" data-field="accessCount"> 访问统计</label>
+                    <select class="display-format">
+                        <option value="label">独立标签</option>
+                        <option value="inline">文字描述</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 模态框容器 -->
+    <div id="modalContainer" class="modal-container" style="display: none;">
+        <div class="modal-backdrop" id="modalBackdrop"></div>
+        <div class="modal" id="modal">
+            <div class="modal-header">
+                <h3 id="modalTitle">模态框标题</h3>
+                <button id="closeModalBtn" class="btn btn-small">×</button>
+            </div>
+            <div class="modal-body" id="modalBody">
+                <!-- 模态框内容将在这里动态生成 -->
+            </div>
+        </div>
+    </div>
+
+    <!-- 消息提示容器 -->
+    <div id="messageContainer" class="message-container"></div>
+
+
+
+    <!-- JavaScript模块 -->
+    <script src="js/app.js"></script>
+    <script src="js/data-manager.js"></script>
+    <script src="js/preset-manager.js"></script>
+    <script src="js/ui-manager.js"></script>
+    <script src="js/components.js"></script>
+</body>
+</html>

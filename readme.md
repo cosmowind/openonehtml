@@ -1,0 +1,1 @@
+这里测试了cursor-sonic和trae的制作效果
